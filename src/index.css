@@ -1,13 +1,141 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  line-height: 2.2;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  position: relative;
+}
+
+.logo {
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.header .main-menu {
+  display:  flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.header ul li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.header ul li a {
+  text-align: center;
+}
+
+.header ul li:hover {
+  background: #c4dec4;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.header ul li:hover a,
+.header ul li a:hover {
+  color: #777;
+}
+
+.burger-housing {
+  padding: 7px 21px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+.burger-housing:hover {
+  background: #c4dec4;
+}
+
+.burger-container {
+  width: 28px;
+  height: 21px;
+  position: relative;
+}
+
+.burger-line,
+.burger-line-1,
+.burger-line-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 5px;
+  background: #777;
+}
+
+.burger-line-1 {
+  transform: translateY(8px);
+}
+
+.burger-line-2 {
+  transform: translateY(16px);
+}
+
+.header .mobile-menu {
+  /*border: 1px solid #777;*/
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  margin-top: 2.5rem;
+  background: #ffff;
+  z-index: 2;
+  right: 20px;
+  top: 37px;
+  width: 200px;
+  box-shadow: #e8e2e2 0px 0px 5px 5px;
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .header .main-menu {
+    display: none;
+  }
+
+  .header .mobile-menu {
+    display: flex;
+  }
+
+  .burger-housing {
+    display: block;
+  }
 }
