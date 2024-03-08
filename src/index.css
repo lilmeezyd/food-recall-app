@@ -9,6 +9,7 @@ body {
 a {
   text-decoration: none;
   color: #000;
+  display: block;
 }
 
 ul {
@@ -50,25 +51,46 @@ li {
 }
 
 
-.header ul li {
+.header ul.main-menu li {
+  margin: 0 2px;
+  position: relative;
+}
+
+.header ul.mobile-menu li a,
+.header ul.main-menu li a {
   padding: 5px 10px;
-  cursor: pointer;
 }
 
-.header ul li a {
-  text-align: center;
+.header ul.main-menu li a {
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
-.header ul li:hover {
+.header ul li a:hover,
+.header ul li a:active {
   background: #c4dec4;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  color: #777;
+  transition: ease-in 500ms all;
 }
 
-.header ul li:hover a,
-.header ul li a:hover {
-  color: #777;
+.main-menu .recalls {
+  box-shadow: #e8e2e2 0px 0px 5px 5px;
+  padding-left: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 3;
 }
+
+.header ul.main-menu li ul.recalls  li {
+  width: 100%;
+  margin: 0;
+}
+
 
 .burger-housing {
   padding: 7px 21px;
@@ -120,6 +142,11 @@ li {
   top: 37px;
   width: 200px;
   box-shadow: #e8e2e2 0px 0px 5px 5px;
+}
+
+.mobile-menu .recalls {
+  box-shadow: inset #e8e2e2 0px 0px 5px 2px;
+  padding-left: 0;
 }
 
 @media (max-width: 760px) {

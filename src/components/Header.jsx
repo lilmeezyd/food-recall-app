@@ -4,18 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 function Header() {
 
     const [ viewMobile, setViewMobile ] = useState(false)
+    const [ dropDown, setDropDown ] = useState(false)
     const [ loggedIn, setLoggedIn ] = useState(false)
 
     const onToggle = () => {
         setViewMobile(prevState => !prevState)
-    }
-
-    const loginIn = () => {
-        setLoggedIn(true)
-    }
-
-    const logOut = () => {
-        setLoggedIn(false)
     }
     return (
         <header className='header'>
@@ -24,22 +17,30 @@ function Header() {
             </div>
             <ul className="main-menu">
                 <li>
-                    <Link to='/recalls'>Recalls</Link>
+                    <Link onClick={() => setDropDown(!dropDown)}>Recalls</Link>
+                    {dropDown && <ul className='recalls'>
+                        <li><Link onClick={() => setDropDown(false)} to='/recalls/fda'>FDA</Link></li>
+                        <li><Link onClick={() => setDropDown(false)} to='/recalls/usda'>USDA</Link></li>
+                    </ul>}
                 </li>
                 <li>
-                    <Link to='/api-provider'>Api Provider</Link>
+                    <Link onClick={() => setDropDown(false)} to='/api-provider'>Api Provider</Link>
                 </li>
                 <li>
-                    <Link to='/about-us'>About Us</Link>
+                    <Link onClick={() => setDropDown(false)} to='/about-us'>About Us</Link>
                 </li>
                 {!loggedIn && <li>
-                    <Link to='/login' onClick={() => setLoggedIn(true)}>Login</Link>
+                    <Link to='/login'  onClick={() => {
+                        setDropDown(false)
+                        setLoggedIn(true)}}>Login</Link>
                 </li>}
                 {!loggedIn && <li>
-                    <Link to='/register'>Register</Link>
+                    <Link onClick={() => setDropDown(false)} to='/register'>Register</Link>
                 </li>}
                 {loggedIn && <li>
-                    <Link to='/' onClick={() => setLoggedIn(false)}>Log Out</Link>
+                    <Link to='/' onClick={() => {
+                        setDropDown(false)
+                        setLoggedIn(false)}}>Log Out</Link>
                 </li>}
             </ul>
             <div onClick={onToggle} className="burger-housing">
@@ -50,25 +51,45 @@ function Header() {
                 </div>
             </div>
 
-            {viewMobile && <ul onClick={onToggle} className="mobile-menu">
+            {viewMobile && <ul className="mobile-menu">
                 <li>
-                    <Link to='/recalls'>Recalls</Link>
+                <Link onClick={() => setDropDown(!dropDown)}>Recalls</Link>
+                    {dropDown && <ul className='recalls'>
+                        <li><Link onClick={() => {
+                            setViewMobile(false)
+                            setDropDown(false)}} to='/recalls/fda'>FDA</Link></li>
+                        <li><Link onClick={() => {
+                            setViewMobile(false)
+                            setDropDown(false)}} to='/recalls/usda'>USDA</Link></li>
+                    </ul>}
                 </li>
                 <li>
-                    <Link to='/api-provider'>Api Provider</Link>
+                    <Link onClick={() => {
+                        setViewMobile(false)
+                        setDropDown(false)}} to='/api-provider'>Api Provider</Link>
                 </li>
                 <li>
-                    <Link to='/about-us'>About Us</Link>
+                    <Link onClick={() => {
+                        setViewMobile(false)
+                        setDropDown(false)}} to='/about-us'>About Us</Link>
                 </li>
                 
                 {!loggedIn && <li>
-                    <Link to='/login' onClick={() => setLoggedIn(true)}>Login</Link>
+                    <Link to='/' onClick={() => {
+                        setViewMobile(false)
+                        setDropDown(false)
+                        setLoggedIn(true)}}>Login</Link>
                 </li>}
                 {!loggedIn && <li>
-                    <Link to='/register'>Register</Link>
+                    <Link onClick={() => {
+                        setViewMobile(false)
+                        setDropDown(false)}} to='/register'>Register</Link>
                 </li>}
                 {loggedIn && <li>
-                    <Link to='/' onClick={() => setLoggedIn(false)}>Log Out</Link>
+                    <Link to='/' onClick={() => {
+                        setViewMobile(false)
+                        setDropDown(false)
+                        setLoggedIn(false)}}>Log Out</Link>
                 </li>}
             </ul>}
 

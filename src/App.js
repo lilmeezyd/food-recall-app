@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Recalls from "./pages/Recalls";
+import Fda from "./pages/Recalls/Fda"
+import Usda from "./pages/Recalls/Usda"
 import ApiProvider from "./pages/ApiProvider";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -15,7 +16,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/recalls" element={<Recalls />} />
+          <Route path="/recalls/fda" element={<Fda />} />
+          <Route path="/recalls/usda" element={<Usda />} />
           <Route path="/api-provider" element={<ApiProvider />} />
           <Route path="/about-us" element={<About />} />
           <Route path="/login" element={<Login />} />
