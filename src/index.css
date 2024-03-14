@@ -1,9 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
 
 a {
@@ -61,10 +59,12 @@ li {
   padding: 5px 10px;
 }
 
-.header ul.main-menu li a {
+.header ul.main-menu li a,
+.header ul.mobile-menu li a {
   justify-content: center;
   align-items: center;
   display: flex;
+  gap: 5px;
 }
 
 .header ul li a:hover,
@@ -144,10 +144,136 @@ li {
   box-shadow: #e8e2e2 0px 0px 5px 5px;
 }
 
+
 .mobile-menu .recalls {
   box-shadow: inset #e8e2e2 0px 0px 5px 2px;
   padding-left: 0;
 }
+
+.search-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+/* Buttons */
+.btn {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 5px;
+  width: 100%;
+  background: #c4dec4;
+}
+
+.search-filter-heading {
+  padding: 10px;
+  font-weight: 600;
+}
+
+.filter-param {
+  margin: 5px 0;
+}
+
+/* Form fields */
+input {
+  display: block;
+  outline: none;
+  line-height: 1.3;
+  padding: 8px 10px;
+  border: 1px solid #aaa;
+  background-color: white;
+  color: #000;
+  width: 100%;
+  border-radius: 5px;
+}
+
+input[type='checkbox'] {
+  width: auto;
+}
+
+.form {
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.form form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cause {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #aaa;
+  align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.options-group {
+  display: flex;
+  /*justify-content: space-between;*/
+  width: 100%;
+  padding: 1px 0;
+}
+
+
+.options-group div:nth-of-type(2){
+  padding: 0 10px;
+}
+
+/* Recall List */
+.recall-list {
+  padding: 15px 5px;
+  margin-bottom: 5px;
+  background: #c4dec426;
+}
+
+.recall-list span {
+  font-weight: 600;
+}
+
+.recall-title {
+  font-weight: 600;
+  text-align: left;
+  font-size: 1.2rem;
+  padding: 5px 0;
+}
+
+.company {
+  padding: 5px 0;
+  font-weight: 400;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.recall-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.recall-details {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+  padding: 5px 0;
+}
+
+
 
 @media (max-width: 760px) {
   body {
