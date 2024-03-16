@@ -24,14 +24,16 @@ function Fda() {
       <div className="recall-list">
         <div className='recall-title'>{enforcement.results[0].reason_for_recall}</div>
         <div className='company'>{enforcement.results[0].recalling_firm}</div>
-        <div>
-          <div className='product_type'>{enforcement.results[0].product_type}</div>
-          <div className='risk-level'>{enforcement.results[0].classification}</div>
-          <div className='recall-status'>{enforcement.results[0].status}</div>
+        <div className='recall-group'>
+          <div className='risk-level'><span>Risk:</span>&nbsp;{enforcement.results[0].classification}</div>
+          <div className='recall-cause'><span>Cause:</span>&nbsp;{enforcement.results[0].classification}</div>
+          <div className='recall-status'><span>Status:</span>&nbsp;{enforcement.results[0].status}</div>
         </div>
         <div className='recall-details'>
-            <div className='recall-date'>Date: {}</div>
-            <div className='recall-states'>States: {enforcement.results[0].distribution_pattern}</div>
+            <div className='recall-date'>
+              <span>Date:</span>&nbsp;
+              {enforcement.results[0].recall_initiation_date.substring(0,4)}</div>
+            <div className='recall-states'><span>Location:</span>&nbsp; {enforcement.results[0].distribution_pattern}</div>
           </div>
       </div>
     </div>
