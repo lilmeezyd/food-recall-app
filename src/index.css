@@ -297,8 +297,12 @@ input[type='checkbox'] {
   padding: 5px 0;
 }
 
-.recall-states {
+.recall-states, .recall-cause {
   text-align: left;
+}
+
+.not-found {
+  padding: 10px;
 }
 
 .button-controls {

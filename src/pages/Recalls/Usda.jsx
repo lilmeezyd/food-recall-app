@@ -22,15 +22,15 @@ function Usda() {
   const [yearOpen, setYearOpen] = useState(false)
 
   const [word, setWord] = useState('')
-  const [cause, setCause] = useState([])
-  const [risk, setRisk] = useState([])
-  const [status, setStatus] = useState([])
-  const [state, setState] = useState([])
-  const [year, setYear] = useState([])
+  const [cause, setCause] = useState('')
+  const [risk, setRisk] = useState('')
+  const [status, setStatus] = useState('')
+  const [state, setState] = useState('')
+  const [year, setYear] = useState('')
   const [curPage, setCurPage] = useState(1)
 
   const recalls = fsis
-  const pageSize = 5
+  const pageSize = 10
 
   const returnRecalls = (recalls, curPage, pageSize) => {
     const sortRecall = (x,y) => {
@@ -48,11 +48,15 @@ function Usda() {
   }
 
   const returnEdited = (recalls, word, cause, state, status, risk, year) => {
-    const newArray = []
-    const causeArray = []
-    const stateArray = []
-    console.log(cause)
-    if (cause.length === 0 &&
+    const newArray =  recalls
+    .filter(x => x.field_recall_reason.includes(cause))
+    .filter(x => x.field_states.includes(state))
+    .filter(x => risk.length === 0 ? x.field_recall_classification : x.field_recall_classification === risk)
+    .filter(x => status.length === 0 ? x.field_recall_type : x.field_recall_type === status)
+    .filter(x => year.length === 0 ? x.field_year : x.field_year === year)
+    .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
+    return newArray
+    /*if (cause.length === 0 &&
       state.length === 0 && status.length === 0 &&
       risk.length === 0 && year.length === 0) {
         console.log(recalls)
@@ -80,7 +84,7 @@ function Usda() {
       console.log(newArray)
       return newArray
       .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
-    }
+    }*/
   }
 /*
   const editedRecall = useMemo(() => returnEdited(recalls, cause, state, status, risk, year)
@@ -149,6 +153,7 @@ function Usda() {
 
   const onSearch = (e) => {
     setWord(e.target.value)
+    setCurPage(1)
   }
 
   const onReset = () => {
@@ -164,9 +169,13 @@ function Usda() {
   const handleCause = (e) => {
     const checkedCause = e.target.value
     if (e.target.checked) {
-      setCause([...cause, checkedCause])
+      //setCause([...cause, checkedCause])
+      setCause(checkedCause)
+      setCurPage(1)
     } else {
-      setCause(cause.filter(x => x !== checkedCause))
+      setCause('')
+      setCurPage(1)
+      //setCause(cause.filter(x => x !== checkedCause))
     }
   }
   /*
@@ -178,9 +187,13 @@ function Usda() {
   const handleRisk = (e) => {
     const checkedRisk = e.target.value
     if (e.target.checked) {
-      setRisk([...risk, checkedRisk])
+      //setRisk([...risk, checkedRisk])
+      setCurPage(1)
+      setRisk(checkedRisk)
     } else {
-      setRisk(risk.filter(x => x !== checkedRisk))
+      //setRisk(risk.filter(x => x !== checkedRisk))
+      setRisk('')
+      setCurPage(1)
     }
   }
   /*
@@ -192,9 +205,13 @@ function Usda() {
   const handleStatus = (e) => {
     const checkedStatus = e.target.value
     if (e.target.checked) {
-      setStatus([...status, checkedStatus])
+      //setStatus([...status, checkedStatus])
+      setCurPage(1)
+      setStatus(checkedStatus)
     } else {
-      setStatus(status.filter(x => x !== checkedStatus))
+      //setStatus(status.filter(x => x !== checkedStatus))
+      setCurPage(1)
+      setStatus('')
     }
   }
   /*
@@ -206,9 +223,13 @@ function Usda() {
   const handleState = (e) => {
     const checkedState = e.target.value
     if (e.target.checked) {
-      setState([...state, checkedState])
+      //setState([...state, checkedState])
+      setCurPage(1)
+      setState(checkedState)
     } else {
-      setState(state.filter(x => x !== checkedState))
+      setState('')
+      setCurPage(1)
+      //setState(state.filter(x => x !== checkedState))
     }
   }
   /*
@@ -220,9 +241,13 @@ function Usda() {
   const handleYear = (e) => {
     const checkedYear = e.target.value
     if (e.target.checked) {
-      setYear([...year, checkedYear])
+      //setYear([...year, checkedYear])
+      setCurPage(1)
+      setYear(checkedYear)
     } else {
-      setYear(year.filter(x => x !== checkedYear))
+      //setYear(year.filter(x => x !== checkedYear))
+      setYear('')
+      setCurPage(1)
     }
   }
   /*
@@ -255,7 +280,7 @@ function Usda() {
           <div className='search-filter-heading'>Search Results</div>
           <div className='form'>
             <form>
-              <input placeholder='Type in keyword' onChange={onSearch} type="text" />
+              <input value={word} placeholder='Type in keyword' onChange={onSearch} type="text" />
             </form>
           </div>
           <button onClick={onReset} className='btn'>Reset</button>
@@ -398,10 +423,10 @@ function Usda() {
           </div>
         </div>
       </div>
-      {filteredRecalls.map((recall, idx) => (
+      {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
         <div key={idx} className="recall-list">
           <div className='recall-title'>{recall.field_title}</div>
-          <div className='company'>{recall.field_establishment}</div>
+          {!!recall.field_establishment.length && <div className='company'><span>Company:</span>&nbsp;{recall.field_establishment}</div>}
           <div className='recall-group'>
             <div className='risk-level'><span>Risk:</span>&nbsp;{recall.field_recall_classification}</div>
             <div className='recall-cause'><span>Cause:</span>&nbsp;{recall.field_recall_reason}</div>
@@ -409,7 +434,7 @@ function Usda() {
           </div>
           <div className='recall-details'>
             <div className='recall-date'><span>Date:</span>&nbsp; {recall.field_recall_date}</div>
-            {!!recall.field_states.length && <div className='recall-states'><span>Location:</span>&nbsp; {recall.field_states}</div>}
+            {!!recall.field_states.length && <div className='recall-states'><span>Distribution Area:</span>&nbsp; {recall.field_states}</div>}
           </div>
         </div>
       ))}
