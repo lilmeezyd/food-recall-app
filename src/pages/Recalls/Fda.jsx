@@ -31,7 +31,8 @@ function Fda() {
 
   const returnEdited = (recalls, word, state, status, risk, year) => {
     const newArray =  recalls
-    .filter(x => state.length === 0 ? x.distribution_pattern : x.distribution_pattern.includes(states[state]))
+    .filter(x => state.length === 0 ? x.distribution_pattern : 
+      (x.distribution_pattern.toLowerCase().includes(states[state]) || x.distribution_pattern.includes(states[state])))
     .filter(x => risk.length === 0 ? x.classification : x.classification === risk)
     .filter(x => status.length === 0 ? x.status : x.status=== status)
     .filter(x => year.length === 0 ? x.recall_initiation_date : x.recall_initiation_date.substring(0,4) === year)
@@ -60,6 +61,14 @@ function Fda() {
   const filteredRecalls = useMemo(() => returnRecalls(editedRecalls, curPage, pageSize), [editedRecalls, curPage, pageSize])
 
   let totalPages = Math.ceil(editedRecalls.length / pageSize)
+
+  const jumpToPage = useMemo(() => {
+    const newArray = []
+    for(let i = 1; i <= totalPages; i++) {
+      newArray.push(i)
+    }
+    return newArray
+  }, [totalPages])
 
   const showRisk = () => {
     setRiskOpen(prevState => !prevState)
@@ -132,6 +141,10 @@ function Fda() {
       setYear('')
       setCurPage(1)
     }
+  }
+
+  const changePage = (e) => {
+    setCurPage(+e.target.value)
   }
 
   const viewNextPage = () => {
@@ -292,6 +305,14 @@ function Fda() {
           </div>
       </div>
       ))}
+      <div className='jump'>
+        <label htmlFor="jump">Jump to page:</label>
+        <select onChange={changePage} name="jump" id="jump">
+          {jumpToPage.map((page, idx) => (
+            <option selected={page === curPage} key={idx} value={page} name={page} >{page}</option>
+          ))}
+        </select>
+      </div>
       <div className="button-controls">
         <button disabled={curPage === 1 ? true : false} onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
           <img src={firstPage} alt="first_page" />

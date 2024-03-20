@@ -6,6 +6,7 @@ import ApiProvider from "./pages/ApiProvider";
 import About from "./pages/About";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile"
 import Header from "./components/Header";
 import Footer from "./components/Footer"
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/recalls/usda" element={<Usda />} />
           <Route path="/api-provider" element={<ApiProvider />} />
           <Route path="/about-us" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

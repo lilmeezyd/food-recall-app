@@ -32,6 +32,9 @@ function Header() {
                 <li>
                     <Link onClick={() => setDropDown(false)} to='/about-us'>About Us</Link>
                 </li>
+                <li>
+                    <Link onClick={() => setDropDown(false)} to='/profile'>Profile</Link>
+                </li>
                 {!loggedIn && <li>
                     <Link to='/login' onClick={() => {
                         setDropDown(false)
@@ -82,6 +85,12 @@ function Header() {
                         setViewMobile(false)
                         setDropDown(false)
                     }} to='/about-us'>About Us</Link>
+                </li>
+                <li>
+                    <Link onClick={() => {
+                        setViewMobile(false)
+                        setDropDown(false)
+                    }} to='/profile'>Profile</Link>
                 </li>
 
                 {!loggedIn && <li>

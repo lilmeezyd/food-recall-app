@@ -100,6 +100,14 @@ function Usda() {
 
   let totalPages = Math.ceil(editedRecalls.length / pageSize)
 
+  const jumpToPage = useMemo(() => {
+    const newArray = []
+    for(let i = 1; i <= totalPages; i++) {
+      newArray.push(i)
+    }
+    return newArray
+  }, [totalPages])
+
 
 
   const createCauses = () => {
@@ -249,6 +257,9 @@ function Usda() {
       setYear('')
       setCurPage(1)
     }
+  }
+  const changePage = (e) => {
+    setCurPage(+e.target.value)
   }
   /*
     const handleAllYears = (e) => {
@@ -438,6 +449,14 @@ function Usda() {
           </div>
         </div>
       ))}
+      <div className='jump'>
+        <label htmlFor="jump">Jump to page:</label>
+        <select onChange={changePage} name="jump" id="jump">
+          {jumpToPage.map((page, idx) => (
+            <option selected={page === curPage} key={idx} value={page} name={page} id={page}>{page}</option>
+          ))}
+        </select>
+      </div>
       <div className="button-controls">
         <button disabled={curPage === 1 ? true : false} onClick={viewFirstPage} className="btn btn-controls" id="firstPage">
           <img src={firstPage} alt="first_page" />
