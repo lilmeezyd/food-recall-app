@@ -280,9 +280,9 @@ li {
 }
 
 .chart {
-  height: 250px;
+  height: 300px;
   padding: 10px;
-  margin: 15px 0;
+  margin: 25px 0;
 }
 
 .chart-heading {
@@ -509,6 +509,10 @@ label {
   font-weight: 600;
   border-bottom: 1px solid;
   padding-bottom: 4px;
+}
+
+.foot-note {
+  font-style: italic;
 }
 
 .footer {

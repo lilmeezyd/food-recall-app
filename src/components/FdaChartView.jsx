@@ -2,7 +2,9 @@ import React from 'react'
 
 function FdaChartView() {
   return (
-    <div>FdaChartView</div>
+    <>
+    <p className="foot-note">*Data retrieved from the fda website</p>
+    </>
   )
 }
 

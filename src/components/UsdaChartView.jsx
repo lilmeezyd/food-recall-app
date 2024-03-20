@@ -136,9 +136,7 @@ const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, ye
         </BarChart>
         </ResponsiveContainer>
         </div>
-    <div className='chart'>
-        <div className='chart-heading'>Reasons for recalls and corresponding numbers</div>
-        <div className='jump'>
+    <div className='jump'>
         <label htmlFor="jump">Range of years:</label>
         <select onChange={changeYear1} name="jump" id="jump">{
             Array.from(new Set(recalls.map(x => x.field_year))).sort((x, y) => {
@@ -158,6 +156,9 @@ const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, ye
               ))
         }</select>
         </div>
+    <div className='chart'>
+        <div className='chart-heading'>Reasons for recalls and corresponding numbers</div>
+        
     <ResponsiveContainer width="100%" height="100%">
         <BarChart width={500} height={400} data={data}
         margin={{top: 5, right: 30, left: 20, bottom: 5}}>
@@ -199,6 +200,8 @@ const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, ye
         </BarChart>
         </ResponsiveContainer>
         </div>
+
+        <p className="foot-note">*Data retrieved from the fsis website</p>
         </>
   )
 }
