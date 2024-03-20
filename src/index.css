@@ -140,11 +140,12 @@ li {
   right: 20px;
   top: 37px;
   width: 200px;
-  box-shadow: #e8e2e2 0px 0px 5px 5px;
+  box-shadow: #e8e2e2 0px 0px 2px 2px;
   animation-name: appear, growDown;
-  animation-duration: 4s, 4s;
+  animation-duration: 400ms, 400ms;
   animation-delay: 0s;
   animation-timing-function: linear, ease;
+  transition: all 200ms;
 }
 
 @keyframes appear {
@@ -178,6 +179,7 @@ li {
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 20px;
   margin-bottom: 10px;
+  padding-top: 20px;
 }
 
 /*Home */
@@ -241,13 +243,51 @@ li {
   background: #c4dec4;
 }
 
+.btn:hover {
+  opacity: 0.8;
+  transition: 200ms;
+}
+
 .search-filter-heading {
-  padding: 10px;
+  text-align: left;
   font-weight: 600;
 }
 
 .filter-param {
   margin: 5px 0;
+}
+
+/* View Buttons */
+.view {
+  display: flex;
+  padding: 10px;
+  width: 80%;
+  margin: auto;
+}
+
+.list-view, .chart-view {
+  flex: 1 1;
+  text-align: center;
+  padding: 5px 0;
+  cursor: pointer;
+  background: #7777771f;
+  cursor: pointer;
+}
+
+.view-active {
+  background: white;
+  box-shadow: #7777771f 0 0 2px 2px;
+}
+
+.chart {
+  height: 250px;
+  padding: 10px;
+  margin: 15px 0;
+}
+
+.chart-heading {
+  padding: 10px;
+  font-weight: 600;
 }
 
 /* Form fields */
@@ -476,6 +516,7 @@ label {
   padding: 10px;
   font-size: 0.8rem;
   font-weight: 600;
+  margin-top: 100px;
 }
 
 

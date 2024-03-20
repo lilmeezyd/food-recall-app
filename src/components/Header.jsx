@@ -15,7 +15,7 @@ function Header() {
     return (
         <header className='header'>
             <div className="logo">
-                <Link to="/">FRP</Link>
+                <Link to="/">FRA</Link>
             </div>
             <ul className="main-menu">
                 <li>
