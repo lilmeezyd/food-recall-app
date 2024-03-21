@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import fsis from '../fsis/fsis.json'
 
 function Home() {
@@ -20,10 +21,10 @@ function Home() {
     </div>
     <div className="latest-recalls">
     {filteredRecalls.map((recall, idx) => (
-      <div key={idx} className="recall-list">
+      <Link to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
         <div className='home-field-title'>{recall.field_title}</div>
         <div className='recall-date'><span>Date:</span>&nbsp; {recall.field_recall_date}</div>
-      </div>
+      </Link>
     ))}
     </div>
     </>

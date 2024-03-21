@@ -67,6 +67,24 @@ const returnRiskData = (recalls, year1, year2) => {
     return data
 }
 
+const returnRecallType = (recalls, year1, year2) => {
+    const data = []
+    Array.from(new Set(recalls.map(x => x.field_recall_type)))
+    .sort((x,y) => {
+        if(x>y) return 1
+        if(x<y) return -1
+    }
+    )
+    .forEach(field => {
+        const subData = {name:field, recalls:0}
+        recalls
+        .filter(recall => recall.field_year >= year1 && recall.field_year <= year2)
+        .forEach(recall => recall.field_recall_type === field && subData.recalls++)
+        data.push(subData)
+    })
+    return data
+}
+
 const returnStateData = (recalls, year1, year2) => {
     const data = []
     const newArray = []
@@ -91,19 +109,17 @@ const returnStateData = (recalls, year1, year2) => {
 }
 
 const changeYear1 = (e) => {
-    if(+year1 > +year2) {
-        console.log('greater')
+    if(+e.target.value > +year2) {
         setYearData({year2: e.target.value, year1: year2
         })
     } else {
-        console.log('ok')
         setYearData(prevState => ({
             ...prevState, year1: e.target.value
         }))
     }
 }
 const changeYear2 = (e) => {
-    if(+year2 < +year1) {
+    if(+e.target.value < +year1) {
         setYearData(prevState => ({
             ...prevState, year2: year1, year1: e.target.value
         }))
@@ -118,6 +134,7 @@ const data = useMemo(() => returnData(recalls, year1, year2), [recalls, year1, y
 const data1 = returnYearData()
 const data2 = useMemo(() => returnRiskData(recalls, year1, year2), [recalls, year1, year2])
 const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, year1, year2])
+const data4 = useMemo(() => returnRecallType(recalls, year1, year2), [recalls, year1, year2])
 
   return (
     <>
@@ -142,8 +159,8 @@ const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, ye
             Array.from(new Set(recalls.map(x => x.field_year))).sort((x, y) => {
                 if (x > y) return 1
                 return -1
-              }).map((year1, idx) => (
-                <option key={idx} name="year1" value={year1}>{year1}</option>
+              }).map((year, idx) => (
+                <option key={idx} name={year} value={year}>{year}</option>
               ))
         }</select>
         <label htmlFor="jump">to:</label>
@@ -152,7 +169,7 @@ const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, ye
                 if (x > y) return -1
                 return 1
               }).map((year2, idx) => (
-                <option key={idx} name="year2" value={year2}>{year2}</option>
+                <option key={idx} name={year2} value={year2}>{year2}</option>
               ))
         }</select>
         </div>
@@ -175,6 +192,21 @@ const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, ye
             <div className='chart-heading'>Risk levels for recalls and corresponding numbers</div>
         <ResponsiveContainer width="100%" height="100%">
         <BarChart width={500} height={400} data={data2}
+        margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="recalls" fill='black' activeBar={<Rectangle fill='gold' stroke='purple' />} />
+        </BarChart>
+        </ResponsiveContainer>
+        </div>
+
+        <div className="chart">
+            <div className='chart-heading'>Status of recalls and the corresponding numbers</div>
+        <ResponsiveContainer width="100%" height="100%">
+        <BarChart width={500} height={400} data={data4}
         margin={{top: 5, right: 30, left: 20, bottom: 5}}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />

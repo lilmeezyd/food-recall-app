@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import fsis from '../fsis/fsis.json'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
@@ -52,6 +53,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
       .filter(x => status.length === 0 ? x.field_recall_type : x.field_recall_type === status)
       .filter(x => year.length === 0 ? x.field_year : x.field_year === year)
       .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
+      console.log(new Set(recalls.map(x=>x.field_establishment)))
       return newArray
       /*if (cause.length === 0 &&
         state.length === 0 && status.length === 0 &&
@@ -278,6 +280,10 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const viewLastPage = () => {
       setCurPage(totalPages)
     }
+
+    const selectRecall = (recall) => {
+      console.log(recall)
+    }
   
   
   
@@ -432,7 +438,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
           </div>
         </div>
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
-          <div key={idx} className="recall-list">
+          <Link to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
             <div className='recall-title'>{recall.field_title}</div>
             {!!recall.field_establishment.length && <div className='company'><span>Company:</span>&nbsp;{recall.field_establishment}</div>}
             <div className='recall-group'>
@@ -444,7 +450,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
               <div className='recall-date'><span>Date:</span>&nbsp; {recall.field_recall_date}</div>
               {!!recall.field_states.length && <div className='recall-states'><span>Distribution Area:</span>&nbsp; {recall.field_states}</div>}
             </div>
-          </div>
+          </Link>
         ))}
         <div className='jump'>
           <label htmlFor="jump">Jump to page:</label>

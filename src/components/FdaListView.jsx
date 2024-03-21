@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import enforcement from '../fda/enforcement.json'
 import states from '../states/states.json'
 import chevronDown from '../static/chevron-down.svg'
@@ -30,11 +31,12 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const returnEdited = (recalls, word, state, status, risk, year) => {
       const newArray =  recalls
       .filter(x => state.length === 0 ? x.distribution_pattern : 
-        (x.distribution_pattern.toLowerCase().includes(states[state]) || x.distribution_pattern.includes(states[state])))
+        (x.distribution_pattern.toLowerCase().includes(state.toLowerCase()) || x.distribution_pattern.includes(states[state])))
       .filter(x => risk.length === 0 ? x.classification : x.classification === risk)
       .filter(x => status.length === 0 ? x.status : x.status=== status)
       .filter(x => year.length === 0 ? x.recall_initiation_date : x.recall_initiation_date.substring(0,4) === year)
       .filter(x => x.reason_for_recall.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
+      console.log(new Set(recalls.map(x => x.recalling_firm)))
       return newArray
     }
   
@@ -285,7 +287,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
         </div>
         
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
-          <div key={idx} className="recall-list">
+          <Link to={`/recalls/fda/${recall.event_id}`} key={idx} className="recall-list">
           <div className='recall-title'>{recall.reason_for_recall}</div>
           <div className='company'><span>Company:</span>&nbsp;{recall.recalling_firm}</div>
           <div className='recall-group'>
@@ -301,7 +303,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
                 +recall.recall_initiation_date.substring(6) }</div>
               <div className='recall-states'><span>Distribution Area:</span>&nbsp; {recall.distribution_pattern}</div>
             </div>
-        </div>
+        </Link>
         ))}
         <div className='jump'>
           <label htmlFor="jump">Jump to page:</label>

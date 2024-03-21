@@ -142,7 +142,7 @@ li {
   width: 200px;
   box-shadow: #e8e2e2 0px 0px 2px 2px;
   animation-name: appear, growDown;
-  animation-duration: 400ms, 400ms;
+  animation-duration: 300ms, 400ms;
   animation-delay: 0s;
   animation-timing-function: linear, ease;
   transition: all 200ms;
@@ -223,6 +223,9 @@ li {
   padding: 5px;
   gap: 10px;  
   border-radius: 5px;
+}
+
+.latest-recalls > .recall-list:hover {
   box-shadow: #c4dec4 0 0 0px 2px;
 }
 
@@ -353,11 +356,29 @@ input[type='checkbox'] {
   margin-bottom: 10px;
   background: #c4dec426;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.recall-list:hover {
   box-shadow: #c4dec4 0 0 0px 2px;
 }
 
-.recall-list span {
+.recall-list-1 {
+  padding: 15px 5px;
+  margin-bottom: 10px;
+}
+
+.recall-list span,
+.recall-list-1 span,
+.recall-list-1 .recall-header {
   font-weight: 600;
+}
+
+.recall-header {
+  padding: 5px 0;
+  border-bottom: 1px solid #e6e6e6;
+  margin-top: 10px;
+  font-size: 13px;
 }
 
 .recall-title {
@@ -393,6 +414,7 @@ input[type='checkbox'] {
   text-align: left;
   word-wrap: anywhere;
 }
+
 
 .not-found {
   padding: 10px;
@@ -520,7 +542,11 @@ label {
   padding: 10px;
   font-size: 0.8rem;
   font-weight: 600;
-  margin-top: 100px;
+  text-align: center;
+}
+
+.recall-extend {
+  text-align: left;
 }
 
 
@@ -540,6 +566,7 @@ label {
 
   .burger-housing {
     display: block;
+    border: 1px solid #777;
   }
   .button-controls img, .prev_next img {
     width: 15px;
