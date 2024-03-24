@@ -1,11 +1,12 @@
 import { BarChart, Bar, Rectangle, Cell, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import fsis from '../fsis/fsis.json'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useContext } from 'react'
+import { RecallContext } from '../RecallContext'
 function UsdaChartView() {
     
     const [yearData, setYearData] = useState({year1: "2010", year2: "2024"})
 
-    const recalls = fsis
+    const recalls = useContext(RecallContext).fsis
 
     const { year1, year2 } = yearData
  
@@ -138,7 +139,7 @@ const data4 = useMemo(() => returnRecallType(recalls, year1, year2), [recalls, y
 
   return (
     <>
-    
+    {recalls.length === 0 ? <div>Loading...</div> : <>
     <div className="chart">
             <div className='chart-heading'>Number of recalls per year since 2010</div>
         <ResponsiveContainer width="100%" height="100%">
@@ -232,6 +233,7 @@ const data4 = useMemo(() => returnRecallType(recalls, year1, year2), [recalls, y
         </BarChart>
         </ResponsiveContainer>
         </div>
+        </>}
 
         <p className="foot-note">*Data retrieved from the fsis website</p>
         </>

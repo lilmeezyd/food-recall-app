@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import enforcement from '../fda/enforcement.json'
+// enforcement from '../fda/enforcement.json'
 import states from '../states/states.json'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
@@ -8,6 +8,7 @@ import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
+import { RecallContext } from '../RecallContext'
 
 function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [dropDownState, setDropDownState] = useState(false)
@@ -25,8 +26,10 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [year, setYear] = useState('')
     const [curPage, setCurPage] = useState(1)
   
-    const recalls = enforcement.results
+    //const recalls = enforcement.results
+    const recalls = useContext(RecallContext).fda
     const pageSize = 10
+   
   
     const returnEdited = (recalls, word, state, status, risk, year) => {
       const newArray =  recalls
@@ -285,7 +288,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
         </div>
           </div>
         </div>
-        
+        {recalls.length === 0 ? <div>Loading...</div> : <>
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
           <Link to={`/recalls/fda/${recall.event_id}`} key={idx} className="recall-list">
           <div className='recall-title'>{recall.reason_for_recall}</div>
@@ -332,6 +335,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
             <img src={lastPage} alt="last_page" />
           </button>
         </div>
+        </>}
         </div>
     )
   }

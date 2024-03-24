@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import fsis from '../fsis/fsis.json'
 import chevronDown from '../static/chevron-down.svg'
@@ -7,6 +7,7 @@ import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
+import { RecallContext } from '../RecallContext'
 
 function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(false)
     const [dropDownRisk, setDropDownRisk] = useState(false)
@@ -27,7 +28,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const [year, setYear] = useState('')
     const [curPage, setCurPage] = useState(1)
   
-    const recalls = fsis
+    const recalls = useContext(RecallContext).fsis
     const pageSize = 10
   
     const returnRecalls = (recalls, curPage, pageSize) => {
@@ -437,6 +438,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
             </div>
           </div>
         </div>
+        {recalls.length === 0 ? <div>Loading...</div> : <>
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
           <Link to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
             <div className='recall-title'>{recall.field_title}</div>
@@ -479,6 +481,8 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
             <img src={lastPage} alt="last_page" />
           </button>
         </div>
+        </>
+}
       </div>
     )
   }

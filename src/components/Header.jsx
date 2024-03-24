@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
@@ -8,6 +8,32 @@ function Header() {
     const [viewMobile, setViewMobile] = useState(false)
     const [dropDown, setDropDown] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false)
+
+    let menuRef = useRef()
+    //let recallRef = useRef()
+
+    useEffect(() => {
+      let handler = (e) => {
+        if(viewMobile && !menuRef.current.contains(e.target)) {
+            setViewMobile(false)
+        }
+      }
+/*
+      let handler1 = (e) => {
+        if(dropDown && !recallRef.current.contains(e.target)) {
+            //setDropDown(false)
+        }
+      }
+*/
+      document.addEventListener("mousedown", handler)
+      //document.addEventListener("mousedown", handler1)
+    
+      return () => {
+        document.removeEventListener("mousedown", handler)
+        //document.removeEventListener("mousedown1", handler1)
+      }
+    })
+    
 
     const onToggle = () => {
         setViewMobile(prevState => !prevState)
@@ -59,7 +85,7 @@ function Header() {
                 </div>
             </div>
 
-            {viewMobile && <ul className="mobile-menu">
+            {viewMobile && <ul ref={menuRef} className="mobile-menu">
                 <li>
                     <Link onClick={() => setDropDown(!dropDown)}>Recalls
                         {dropDown ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</Link>

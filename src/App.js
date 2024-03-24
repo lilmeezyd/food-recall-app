@@ -11,9 +11,11 @@ import Header from "./components/Header";
 import Footer from "./components/Footer"
 import UsdaRecall from "./pages/UsdaRecall";
 import FdaRecall from "./pages/FdaRecall";
+import RecallProvider from "./RecallContext";
 
 function App() {
   return (
+    <RecallProvider>
     <Router>
       <div className="container">
         <Header />
@@ -32,6 +34,7 @@ function App() {
       </div>
         <Footer />
     </Router>
+    </RecallProvider>
   );
 }
 
