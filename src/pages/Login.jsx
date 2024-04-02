@@ -1,15 +1,19 @@
-import {useState} from 'react'
-import { Link } from 'react-router-dom'
+import {useState, useContext} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { AuthenticaticationContext } from '../AuthenticationContext'
 
 function Login() {
   
-  const [ data, setData ] = useState({
-    email: '', password: ''
-  })
+  const initialState = {email: '', password: ''}
+  const [ data, setData ] = useState(initialState)
+  const navigate = useNavigate()
+  const login = useContext(AuthenticaticationContext)
 
   const { email, password } = data
   const onSubmit = (e) => {
     e.preventDefault()
+    login.login(email,password)
+    setData(initialState)
   }
 
   const onChange = (e) => {
@@ -33,6 +37,7 @@ function Login() {
           <button className='btn'>Login</button>
         </div>
       </form>
+      <p><Link to="/request-password-reset">Forgot Password </Link> </p>
       <p>Don't have an account <Link to='/register'>Register</Link></p>
     </div>
   )

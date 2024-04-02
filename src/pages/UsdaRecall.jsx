@@ -1,13 +1,15 @@
+import { useContext } from "react"
 import { useParams } from "react-router-dom"
-import fsis from '../fsis/fsis.json'
+import { RecallContext } from '../RecallContext'
 
 
 function UsdaRecall() {
-    const recalls = fsis
+  const recalls = useContext(RecallContext).fsis
     const { usdaId } = useParams()
     const recall = recalls.find(recall => recall.field_recall_number === usdaId)
   return (
     <div  className="recall-list-1">
+      {console.log(recall)}
             <div className='recall-title'>{recall.field_title}</div>
             {!!recall.field_establishment.length && <div className='company'><span>Company:</span>&nbsp;{recall.field_establishment}</div>}
             <div className='recall-group'>

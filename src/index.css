@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 14px;
 }
 
 a {
@@ -244,6 +245,7 @@ li {
   border-radius: 5px;
   width: 100%;
   background: #c4dec4;
+  font-weight: 600;
 }
 
 .btn:hover {
@@ -481,6 +483,11 @@ label {
   text-align: left;
   font-weight: 600;
 }
+
+.form-control {
+  margin: 10px 0;
+}
+
 .form-control form,
 .form-control .form-profile {
   max-width: 500px;
@@ -496,7 +503,7 @@ label {
 }
 
 .form-control a {
-  color: steelblue;
+  font-weight: 600;
 }
 
 .form-group {
@@ -549,11 +556,16 @@ label {
   text-align: left;
 }
 
+.foot-note-notify {
+  font-style: italic;
+  text-align: left;
+}
+
 
 
 @media (max-width: 760px) {
   body {
-    font-size: 0.9rem;
+    font-size: 13px;
   }
 
   .header .main-menu {

@@ -27,7 +27,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [curPage, setCurPage] = useState(1)
   
     //const recalls = enforcement.results
-    const recalls = useContext(RecallContext).fda
+    const recalls = useContext(RecallContext).returnFda()
     const pageSize = 10
    
   
@@ -37,7 +37,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
         (x.distribution_pattern.toLowerCase().includes(state.toLowerCase()) || x.distribution_pattern.includes(states[state])))
       .filter(x => risk.length === 0 ? x.classification : x.classification === risk)
       .filter(x => status.length === 0 ? x.status : x.status=== status)
-      .filter(x => year.length === 0 ? x.recall_initiation_date : x.recall_initiation_date.substring(0,4) === year)
+      .filter(x => year.length === 0 ? x.report_date : x.report_date.substring(0,4) === year)
       .filter(x => x.reason_for_recall.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
       console.log(new Set(recalls.map(x => x.recalling_firm)))
       return newArray
@@ -45,8 +45,8 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
   
     const returnRecalls = (recalls, curPage, pageSize) => {
       const sortRecall = (x,y) => {
-        if(x.recall_initiation_date.substring(0,4)>y.recall_initiation_date.substring(0,4)) return -1
-        if(x.recall_initiation_date.substring(0,4)<y.recall_initiation_date.substring(0,4)) return 1
+        if(x.report_date>y.report_date) return -1
+        if(x.report_date<y.report_date) return 1
     }
       const filterRecall = (recall, idx) => {
         let start = (curPage - 1) * pageSize
@@ -271,7 +271,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
               }} className='cause'>Year 
           {dropDownYear ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
           {yearOpen && <div className='options'>
-            {Array.from(new Set(editedRecalls.map(x => x.recall_initiation_date.substring(0,4)))).sort((x, y) => {
+            {Array.from(new Set(editedRecalls.map(x => x.report_date.substring(0,4)))).sort((x, y) => {
                   if (x > y) return -1
                   return 1
                 }).map((risk, idx) => (
@@ -301,9 +301,9 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
           <div className='recall-details'>
               <div className='recall-date'>
                 <span>Date:</span>&nbsp;
-                {recall.recall_initiation_date.substring(0,4)+'-'
-                +recall.recall_initiation_date.substring(4,6)+'-'
-                +recall.recall_initiation_date.substring(6) }</div>
+                {recall.report_date.substring(0,4)+'-'
+                +recall.report_date.substring(4,6)+'-'
+                +recall.report_date.substring(6) }</div>
               <div className='recall-states'><span>Distribution Area:</span>&nbsp; {recall.distribution_pattern}</div>
             </div>
         </Link>

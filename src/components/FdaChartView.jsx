@@ -1,21 +1,19 @@
 import { BarChart, Bar, Rectangle, Cell, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
-//import enforcement from '../fda/enforcement.json'
 import states from '../states/states.json'
 import { useState, useMemo, useContext } from 'react'
 import { RecallContext } from '../RecallContext'
 
 function FdaChartView() {
-    const [yearData, setYearData] = useState({year1: "2008", year2: "2024"})
+    const [yearData, setYearData] = useState({year1: "2018", year2: "2024"})
 
-    //const recalls = enforcement.results
-    const recalls = useContext(RecallContext).fda
+    const recalls = useContext(RecallContext).returnFda()
 
     const { year1, year2 } = yearData
 
     const returnYearData = () => {
         const data = []
         console.log(recalls)
-        Array.from(new Set(recalls.map(x => x.recall_initiation_date.substring(0,4))))
+        Array.from(new Set(recalls.map(x => x.report_date.substring(0,4))))
         .sort((x,y) => {
             if(x>y) return 1
             if(x<y) return -1
@@ -24,7 +22,7 @@ function FdaChartView() {
         .forEach(field => {
             const subData = {name:field, recalls:0}
             recalls
-            .forEach(recall => recall.recall_initiation_date.substring(0,4) === field && subData.recalls++)
+            .forEach(recall => recall.report_date.substring(0,4) === field && subData.recalls++)
             data.push(subData)
         })
         return data
@@ -40,7 +38,7 @@ function FdaChartView() {
         .forEach(field => {
             const subData = {name:field, recalls:0}
             recalls
-            .filter(recall => recall.recall_initiation_date.substring(0,4) >= year1 && recall.recall_initiation_date.substring(0,4) <= year2)
+            .filter(recall => recall.report_date.substring(0,4) >= year1 && recall.report_date.substring(0,4) <= year2)
             .forEach(recall => recall.classification === field && subData.recalls++)
             data.push(subData)
         })
@@ -58,7 +56,7 @@ function FdaChartView() {
         .forEach(field => {
             const subData = {name:field, recalls:0}
             recalls
-            .filter(recall => recall.recall_initiation_date.substring(0,4) >= year1 && recall.recall_initiation_date.substring(0,4) <= year2)
+            .filter(recall => recall.report_date.substring(0,4) >= year1 && recall.report_date.substring(0,4) <= year2)
             .forEach(recall => recall.status === field && subData.recalls++)
             data.push(subData)
         })
@@ -74,7 +72,7 @@ function FdaChartView() {
           }).forEach(field => {
             const subData = {name:field, recalls: 0}
             recalls
-            .filter(recall => recall.recall_initiation_date.substring(0,4) >= year1 && recall.recall_initiation_date.substring(0,4) <= year2)
+            .filter(recall => recall.report_date.substring(0,4) >= year1 && recall.report_date.substring(0,4) <= year2)
             .forEach(x => (x.distribution_pattern.toLowerCase().includes(field.toLowerCase()) || x.distribution_pattern.includes(states[field])) && subData.recalls++)
             data.push(subData)
         })
@@ -111,7 +109,7 @@ function FdaChartView() {
     <>
     {recalls.length === 0 ? <div>Loading...</div> : <>
     <div className="chart">
-            <div className='chart-heading'>Number of recalls per year since 2008</div>
+            <div className='chart-heading'>Number of recalls per year since 2018</div>
         <ResponsiveContainer width="100%" height="100%">
         <BarChart width={500} height={400} data={data1}
         margin={{top: 5, right: 30, left: 20, bottom: 5}}>
@@ -127,7 +125,7 @@ function FdaChartView() {
     <div className='jump'>
         <label htmlFor="jump">Range of years:</label>
         <select onChange={changeYear1} name="jump" id="jump">{
-            Array.from(new Set(recalls.map(x => x.recall_initiation_date.substring(0,4)))).sort((x, y) => {
+            Array.from(new Set(recalls.map(x => x.report_date.substring(0,4)))).sort((x, y) => {
                 if (x > y) return 1
                 return -1
               }).map((year1, idx) => (
@@ -136,7 +134,7 @@ function FdaChartView() {
         }</select>
         <label htmlFor="jump">to:</label>
         <select onChange={changeYear2} name="jump" id="jump">{
-            Array.from(new Set(recalls.map(x => x.recall_initiation_date.substring(0,4)))).sort((x, y) => {
+            Array.from(new Set(recalls.map(x => x.report_date.substring(0,4)))).sort((x, y) => {
                 if (x > y) return -1
                 return 1
               }).map((year2, idx) => (

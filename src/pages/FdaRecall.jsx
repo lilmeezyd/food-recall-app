@@ -1,16 +1,18 @@
+import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import enforcement from '../fda/enforcement.json'
+import { RecallContext } from '../RecallContext'
+
 
 function FdaRecall() {
 
-    const recalls = enforcement.results
+  const recalls = useContext(RecallContext).returnFda()
     const {fdaId} = useParams()
     const recall = recalls.find(recall => recall.event_id === fdaId)
   return (
     <>
+    {console.log(useParams())}
     {!recall ? <p>Recall not found!</p> : 
     <div className="recall-list-1">
-        {console.log(recall)}
     <div className='recall-title'>{recall.reason_for_recall}</div>
     <div className='company'><span>Company:</span>&nbsp;{recall.recalling_firm}</div>
     <div className='recall-group'>
