@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../AuthenticationContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,22 +6,31 @@ function Profile() {
 
     const user = useAuth()
     const [data, setData] = useState({
-        firstName: user?.profile?.firstName || '', 
-        lastName: user?.profile?.lastName || ''
+        firstName: '', 
+        lastName: ''
     })
     const [passwords, setPasswords ] = useState({
         oldPassword: '', newPassword: '', confirmPassword: ''
     })
 
     const [ notifications, setNotifications ] = useState(
-        {fda: user?.profileNotify?.fda || false, 
-        usda: user?.profileNotify?.usda || false})
+        {fda: false, 
+        usda: false})
 
     const { firstName, lastName } = data
     const { oldPassword, newPassword, confirmPassword } = passwords
     const { fda, usda } = notifications
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+    setNotifications(user.profileNotify)
+    setData(user.profile)
+      return () => {
+        
+      }
+    }, [user.profileNotify, user.profile])
+    
 
     const onChangeDetails = (e) => {
         setData(prevState => ({
@@ -70,6 +79,8 @@ function Profile() {
                 </div>
             </div>
             <div className='profile'>
+                {console.log(user.profile)}
+                {console.log(user.profileNotify)}
                 <div className="form-control">
                     <div className='form-profile'>
                         <div className="profile-heading-1">Edit Details</div>
@@ -88,7 +99,7 @@ function Profile() {
                             </div>
                             <div className='form-group'>
                                 <label htmlFor="lastName">Email</label>
-                                <div className='email'>{user?.profile?.email}</div>
+                                <div className='email'>{user.profile.email}</div>
                             </div>
                             <div className='form-group'>
                                 <button className='btn'>Save</button>

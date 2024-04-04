@@ -19,6 +19,7 @@ import PrivateRoute from "./router/PrivateRoute";
 
 function App() {
   return (
+    <Router>
     <AuthenticationProvider>
       <RecallProvider>
           <div className="container">
@@ -46,6 +47,7 @@ function App() {
           <Footer />
       </RecallProvider>
     </AuthenticationProvider>
+    </Router>
   );
 }
 

@@ -508,6 +508,7 @@ label {
 
 .form-group {
   margin: 5px 0;
+  padding: 0 5px;
 }
 
 .form-group .email {
@@ -536,8 +537,11 @@ label {
 .profile-heading-1 {
   text-align: left;
   font-weight: 600;
-  border-bottom: 1px solid;
-  padding-bottom: 4px;
+  border-bottom: 1px solid #e6e6e6;
+  /*padding-bottom: 4px;*/
+  background: #c4dec43d;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .foot-note {
@@ -559,6 +563,9 @@ label {
 .foot-note-notify {
   font-style: italic;
   text-align: left;
+  font-size: 12px;
+  font-weight: 100;
+  padding: 5px;
 }
 
 

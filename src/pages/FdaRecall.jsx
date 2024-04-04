@@ -10,7 +10,6 @@ function FdaRecall() {
     const recall = recalls.find(recall => recall.event_id === fdaId)
   return (
     <>
-    {console.log(useParams())}
     {!recall ? <p>Recall not found!</p> : 
     <div className="recall-list-1">
     <div className='recall-title'>{recall.reason_for_recall}</div>
