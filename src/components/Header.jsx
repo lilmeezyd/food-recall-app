@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../AuthenticationContext'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
@@ -14,12 +14,12 @@ function Header() {
     //let recallRef = useRef()
 
     useEffect(() => {
-      let handler = (e) => {
+     /* let handler = (e) => {
         if(viewMobile && !menuRef.current.contains(e.target)) {
             console.log(menuRef.current)
             setViewMobile(false)
         }
-      }
+      }*/
 /*
       let handler1 = (e) => {
         if(dropDown && !recallRef.current.contains(e.target)) {
