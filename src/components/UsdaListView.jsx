@@ -1,13 +1,12 @@
 import { useState, useMemo, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import fsis from '../fsis/fsis.json'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
 import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
-import { RecallContext } from '../RecallContext'
+import { useRecall } from '../RecallContext'
 
 function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(false)
     const [dropDownRisk, setDropDownRisk] = useState(false)
@@ -28,7 +27,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const [year, setYear] = useState('')
     const [curPage, setCurPage] = useState(1)
   
-    const recalls = useContext(RecallContext).fsis
+    const recalls = useRecall().fsis
     const pageSize = 10
   
     const returnRecalls = (recalls, curPage, pageSize) => {
@@ -281,11 +280,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const viewLastPage = () => {
       setCurPage(totalPages)
     }
-
-    const selectRecall = (recall) => {
-      console.log(recall)
-    }
-  
+ 
   
   
     return (

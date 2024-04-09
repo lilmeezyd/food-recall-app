@@ -1,12 +1,11 @@
 import { BarChart, Bar, Rectangle, Cell, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
-import fsis from '../fsis/fsis.json'
-import { useState, useMemo, useContext } from 'react'
-import { RecallContext } from '../RecallContext'
+import { useState, useMemo } from 'react'
+import { useRecall } from '../RecallContext'
 function UsdaChartView() {
     
     const [yearData, setYearData] = useState({year1: "2010", year2: "2024"})
 
-    const recalls = useContext(RecallContext).fsis
+    const recalls = useRecall().fsis
 
     const { year1, year2 } = yearData
  

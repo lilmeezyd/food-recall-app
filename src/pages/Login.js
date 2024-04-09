@@ -1,15 +1,24 @@
-import {useState, useContext} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { AuthenticaticationContext } from '../AuthenticationContext'
+import {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../AuthenticationContext'
 
 function Login() {
   
   const initialState = {email: '', password: ''}
   const [ data, setData ] = useState(initialState)
-  const navigate = useNavigate()
-  const login = useContext(AuthenticaticationContext)
+  const login = useAuth()
 
   const { email, password } = data
+
+  useEffect(() => {
+    !!login.message && setTimeout(() => {
+      login.reset()
+    }, 2000)
+  
+    return () => {
+      
+    }
+  }, [login])
   const onSubmit = (e) => {
     e.preventDefault()
     login.login(email,password)
@@ -23,15 +32,16 @@ function Login() {
   }
   return (
     <div className='form-control'>
-      <div className='login'>Login into Food Recall App</div>
-      <form onSubmit={onSubmit}>
+      <div className='login'>Login into Food Recall Tool</div>
+      <form onSubmit={onSubmit}>{!!login.message &&
+      <div role='alert' className='error-msg alert'>{login.message}</div>}
         <div className='form-group'>
           <label htmlFor="Email">Email</label>
-          <input required onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type="text" />
+          <input onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type="email" />
         </div>
         <div className='form-group'>
           <label htmlFor="Password">Password</label>
-          <input required onChange={onChange} placeholder='Enter Password' id='password' name='password' value={password} type="password" />
+          <input onChange={onChange} placeholder='Enter Password' id='password' name='password' value={password} type="password" />
         </div>
         <div className='form-group'>
           <button className='btn'>Login</button>

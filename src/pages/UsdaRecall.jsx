@@ -1,10 +1,9 @@
-import { useContext } from "react"
 import { useParams } from "react-router-dom"
-import { RecallContext } from '../RecallContext'
+import { useRecall } from '../RecallContext'
 
 
 function UsdaRecall() {
-  const recalls = useContext(RecallContext).fsis
+  const recalls = useRecall().fsis
     const { usdaId } = useParams()
     const recall = recalls.find(recall => recall.field_recall_number === usdaId)
   return (
@@ -41,4 +40,4 @@ function UsdaRecall() {
   )
 }
 
-export default UsdaRecall
+export default UsdaRecall 

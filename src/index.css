@@ -568,6 +568,16 @@ label {
   padding: 5px;
 }
 
+.alert {
+  padding: 10px 0;
+  margin-top: 10px;
+  color: white;
+}
+
+.error-msg {
+  background: rgb(108, 23, 23, 0.5);
+}
+
 
 
 @media (max-width: 760px) {

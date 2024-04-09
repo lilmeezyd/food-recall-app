@@ -45,7 +45,6 @@ function Profile() {
     }
 
     const onChangeNotifications = (e) => {
-        console.log(e.target)
         setNotifications(prevState => ({
             ...notifications, [e.target.name]: e.target.checked
         }))
@@ -63,7 +62,7 @@ function Profile() {
         setPasswords({
             oldPassword: '', newPassword: '', confirmPassword: ''
         })
-        navigate('/')
+        //navigate('/')
     }
 
     const submitNotifications = (e) => {
@@ -79,8 +78,6 @@ function Profile() {
                 </div>
             </div>
             <div className='profile'>
-                {console.log(user.profile)}
-                {console.log(user.profileNotify)}
                 <div className="form-control">
                     <div className='form-profile'>
                         <div className="profile-heading-1">Edit Details</div>

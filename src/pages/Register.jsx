@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { AuthenticaticationContext } from '../AuthenticationContext'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../AuthenticationContext'
 
 function Register() { 
   const initialState = {
@@ -8,8 +8,18 @@ function Register() {
   }
   const [ data, setData ] = useState(initialState)
   const { email, password1, password2, firstName, lastName } = data
-  const register = useContext(AuthenticaticationContext)
-  const navigate = useNavigate()
+  const register = useAuth()
+
+  useEffect(() => {
+    !!register.message && setTimeout(() => {
+      register.reset()
+    }, 2000)
+  
+    return () => {
+      
+    }
+  }, [register])
+  
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -27,25 +37,27 @@ function Register() {
     <div className='form-control'>
       <div className='login'>Register to get email notifications</div>
       <form onSubmit={onSubmit}>
+      {!!register.message && 
+      <div className='error-msg alert'>{register.message}</div>}
       <div className='form-group'>
           <label htmlFor="firstName">First Name</label>
-          <input required onChange={onChange} placeholder='Enter First Name' id='firstName' name='firstName' value={firstName} type="text" />
+          <input onChange={onChange} placeholder='Enter First Name' id='firstName' name='firstName' value={firstName} type="text" />
         </div>
         <div className='form-group'>
           <label htmlFor="lastName">Last Name</label>
-          <input required onChange={onChange} placeholder='Enter Last Name' id='lastName' name='lastName' value={lastName} type="text" />
+          <input onChange={onChange} placeholder='Enter Last Name' id='lastName' name='lastName' value={lastName} type="text" />
         </div>
         <div className='form-group'>
           <label htmlFor="lastName">Email</label>
-          <input required onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type='email' />
+          <input onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type='email' />
         </div>
         <div className='form-group'>
           <label htmlFor="Password">Password</label>
-          <input required onChange={onChange} placeholder='Enter Password' id='password1' name='password1' value={password1} type="password" />
+          <input onChange={onChange} placeholder='Enter Password' id='password1' name='password1' value={password1} type="password" />
         </div>
         <div className='form-group'>
           <label htmlFor="Password">Confirm Password</label>
-          <input required onChange={onChange} placeholder='Confirm Password' id='password2' name='password2' value={password2} type="password" />
+          <input onChange={onChange} placeholder='Confirm Password' id='password2' name='password2' value={password2} type="password" />
         </div>
         <div className='form-group'>
           <button className='btn'>Register</button>
