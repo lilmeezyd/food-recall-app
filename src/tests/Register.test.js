@@ -28,7 +28,7 @@ describe('Register component', () => {
         //screen.debug()
         //fireEvent.change(nameInput, {target: {value: 'Denis'}})
         //userEvent.click(buttonElement);
-        screen.debug()
+        //screen.debug()
         //const alertElement = screen.getByRole("alert");
         //expect(alertElement).toBeInTheDocument();
 

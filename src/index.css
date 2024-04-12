@@ -578,6 +578,25 @@ label {
   background: rgb(108, 23, 23, 0.5);
 }
 
+.unknown {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #8080803d;
+}
+
+.unknown-header {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 20px;
+}
+.unknown-msg {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
 
 
 @media (max-width: 760px) {

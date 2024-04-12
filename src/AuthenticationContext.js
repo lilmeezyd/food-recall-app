@@ -1,12 +1,13 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const AuthenticaticationContext = createContext({
   user: null,
   profile: null,
   profileNotify: null,
   token: null,
-  message: '',
+  message: "",
   reset: () => {},
   register: () => {},
   login: () => {},
@@ -33,32 +34,28 @@ function AuthenticationProvider({ children }) {
     fda: false,
     usda: false,
   });
-  const [ message, setMessage] = useState('')
-  const [ errorMsg, setErrorMsg ] = useState(false)
-  const [ successMsg, setSuccessMsg ] = useState(false)
+  const [message, setMessage] = useState("");
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getProfile = async () => {
-      try {
-        const config = {
+    const config = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
-        const response = await fetch(
-          "http://localhost:8000/api/users/me",
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/users/me`,
           config
         );
-        const data = await response.json();
-        if (response.ok) {
-          console.log(data);
-          const { firstName, lastName, email, notifications } = data;
-          setProfile({ firstName, lastName, email });
-          setProfileNotify(notifications);
-        } else {
-          console.log(data.msg)
-        }
+        const data = await response.data;
+        console.log(data);
+        const { firstName, lastName, email, notifications } = data;
+        setProfile({ firstName, lastName, email });
+        setProfileNotify(notifications);
       } catch (error) {
         console.log(error);
       }
@@ -74,28 +71,14 @@ function AuthenticationProvider({ children }) {
   const register = async (firstName, lastName, email, password1, password2) => {
     const formData = { firstName, lastName, email, password1, password2 };
     try {
-      const response = await fetch("http://localhost:8000/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (response.ok) {
+      const response = await axios.post("http://localhost:8000/api/users",  formData);
+      const data = await response.data;
         const { email, token } = data;
         setUser({ email, token });
         setToken(token);
         localStorage.setItem("token", JSON.stringify(token));
         localStorage.setItem("user", JSON.stringify({ email, token }));
         navigate("/");
-      } else {
-        if (response.status === 400) {
-          setMessage(data.msg)
-          setErrorMsg(true)
-          throw new Error(data.msg);
-        }
-      }
     } catch (error) {
       console.log(error);
     }
@@ -104,30 +87,21 @@ function AuthenticationProvider({ children }) {
   const login = async (email, password) => {
     const formData = { email, password };
     try {
-      const response = await fetch("http://localhost:8000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        const { email, token } = data;
-        setUser({ email, token });
-        setToken(token);
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("user", JSON.stringify({ email, token }));
-        navigate("/");
-      } else {
-        if (response.status === 400) {          
-          setMessage(data.msg)
-          setErrorMsg(true)
-          throw new Error(data.msg);
-        }
-      }
+      const response = await axios.post(
+        `http://localhost:8000/api/users/login`,
+        formData
+      );
+      const data = await response.data;
+      console.log(data);
+      const { email, token } = data;
+      setUser({ email, token });
+      setToken(token);
+      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("user", JSON.stringify({ email, token }));
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.msg);
+      setMessage(error.response.data.msg)
     }
   };
 
@@ -136,26 +110,16 @@ function AuthenticationProvider({ children }) {
     setToken(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    //navigate('/')
+    navigate('/')
   };
 
   const requestPasswordReset = async (email) => {
     const formData = { email };
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/users/requestResetPassword`,{
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-      } else {
-        if (response.status === 400) throw new Error(data.msg);
-      }
+      const response = await axios.post(
+        `http://localhost:8000/api/users/requestResetPassword`, formData );
+      const data = await response.data;
+      console.log(data)
     } catch (error) {
       console.log(error);
     }
@@ -164,26 +128,22 @@ function AuthenticationProvider({ children }) {
   const resetPassword = async (userId, token, password) => {
     const formData = { userId, token, password };
     try {
-      const response = await fetch("http://localhost:8000/api/users/resetPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (response.ok) {
-          console.log(data);
-          navigate("/");
-      } else {
-        if (response.status === 400) throw new Error(data.msg);
-      }
+      const response = await axios.post(
+        "http://localhost:8000/api/users/resetPassword", formData);
+      const data = await response.data;
+        console.log(data);
+        navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
 
   const newPassword = async (oldPass, newPass, confirmPass) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const formData = {
         oldPassword: oldPass,
@@ -191,20 +151,10 @@ function AuthenticationProvider({ children }) {
         confirmPassword: confirmPass,
       };
 
-      const response = await fetch("http://localhost:8000/api/users/newPassword", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json()
-      if(response.ok) {
-        console.log(data)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.put(
+        "http://localhost:8000/api/users/newPassword", formData, config);
+      const data = await response.data;
+        console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -217,22 +167,16 @@ function AuthenticationProvider({ children }) {
       fda,
       usda,
     }));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-
-      const response = await fetch("http://localhost:8000/api/users/notifications", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json()
-      if(response.ok) {
-        console.log(data)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.put(
+        "http://localhost:8000/api/users/notifications", formData, config);
+      const data = await response.data;
+        console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -245,32 +189,27 @@ function AuthenticationProvider({ children }) {
       firstName,
       lastName,
     }));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/updateDetails", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json()
-      if(response.ok) {
-        console.log(data)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.put(
+        "http://localhost:8000/api/users/updateDetails", formData, config);
+      const data = await response.data;
+        console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
   const reset = () => {
-    setMessage('')
-    setErrorMsg(false)
-    setSuccessMsg(false)
-  }
+    setMessage("");
+    setErrorMsg(false);
+    setSuccessMsg(false);
+  };
 
   const contextValue = {
     user: user,

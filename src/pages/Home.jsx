@@ -5,7 +5,7 @@ import { useRecall } from '../RecallContext'
 function Home() {
 
   //const recalls = useContext(RecallContext).fsis
-  const recalls = useRecall().fsis
+  const { fsis: recalls, errorFsis } = useRecall()
 
   const filteredRecalls = useMemo(() => {
     const sortRecall = (x,y) => {
@@ -20,7 +20,7 @@ function Home() {
       <h1 className='home-image-heading'>Food Recall Tool</h1>
       <span className='home-image-sub'>Keep up to date with all food recalls</span>
     </div>
-    {recalls.length === 0 ? (<div>Loading...</div>) : (<div className="latest-recalls">
+    {recalls.length > 0  && (<div className="latest-recalls">
     {filteredRecalls.map((recall, idx) => (
       <Link data-testid="todo" to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
         <div className='home-field-title'>{recall.field_title}</div>
@@ -28,6 +28,8 @@ function Home() {
       </Link>
     ))}
     </div>)}
+    {recalls.length === 0 && errorFsis === '' && <div>Loading...</div>}
+    {errorFsis === 'Network Error' && <div>Check your internet connection!</div>}
     </>
   )
 }

@@ -9,3 +9,14 @@ describe('Register component', () => {
     expect(element).toBeInTheDocument()
   })
 })
+/*
+describe('Fetch Homepage recalls', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn
+  })
+
+  it('should render the 3 most recent recalls from usda', async () => {
+    jest.spyOn(global,)
+  })
+})
+*/

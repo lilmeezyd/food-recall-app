@@ -1,7 +1,9 @@
 import { createContext, useState, useEffect, useContext } from "react";
+import axios from "axios";
 export const RecallContext = createContext({
   fda: [],
   fsis: [],
+  errorFsis: '',
   returnFda: () => {},
   fetchUsda: () => {}
 });
@@ -20,6 +22,7 @@ function RecallProvider({ children }) {
   const [fda10, setFda10] = useState([]);
   const [fda11, setFda11] = useState([]);
   const [fsis, setFsis] = useState([]);
+  const [ errorFsis, setErrorFsis] = useState('')
 
   useEffect(() => {
     fetchFda()
@@ -43,28 +46,22 @@ function RecallProvider({ children }) {
     const url =
     "https://api.fda.gov/food/enforcement.json?search=report_date:[20231001+TO+20241231]&limit=1000";
 
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda(data.results)
     } catch (error) {
       console.log(error)
     }
   }
 
   const fetchFda1 = async () => {
-    const response = await fetch("https://api.fda.gov/food/enforcement.json?search=report_date:[20230323+TO+20230930]&limit=1000")
-    const data = await response.json()
+    const url = "https://api.fda.gov/food/enforcement.json?search=report_date:[20230323+TO+20230930]&limit=1000"
+    
     try {
-      if(response.ok) {
-        setFda1(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda1(data.results)
     } catch (error) {
       console.log(error)
     }
@@ -72,14 +69,11 @@ function RecallProvider({ children }) {
 
   const fetchFda2 =  async () => {
       const url = "https://api.fda.gov/food/enforcement.json?search=report_date:[20220915+TO+20230322]&limit=1000"
-      const response = await fetch(url)
-      const data = await response.json()
+      
       try {
-        if(response.ok) {
-          setFda2(data.results)
-        } else {
-          console.log(data)
-        }
+        const response = await axios.get(url)
+        const data = await response.data
+        setFda2(data.results)
       } catch (error) {
         console.log(error)
       }
@@ -88,14 +82,11 @@ function RecallProvider({ children }) {
   
   const fetchFda3 = async () => {
     const url =   "https://api.fda.gov/food/enforcement.json?search=report_date:[20220220+TO+20220914]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
+    
     try {
-      if(response.ok) {
-        setFda3(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda3(data.results)
     } catch (error) {
       console.log(error)
     }
@@ -103,113 +94,81 @@ function RecallProvider({ children }) {
 
   const fetchFda4 = async () => {
       const url = "https://api.fda.gov/food/enforcement.json?search=report_date:[20210710+TO+20220219]&limit=1000"
-      const response = await fetch(url)
-      const data = await response.json()
       try {
-        if(response.ok) {
-          setFda4(data.results)
-        } else {
-          console.log(data)
-        }
+        const response = await axios.get(url)
+        const data = await response.data
+        setFda4(data.results)
       } catch (error) {
         console.log(error)
       }
-  }
+    }
 
   const fetchFda5 = async () => {
     const url =  "https://api.fda.gov/food/enforcement.json?search=report_date:[20200910+TO+20210709]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda5(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda5(data.results)
     } catch (error) {
       console.log(error)
     }
   }
   const fetchFda6 = async () => {
     const url =  "https://api.fda.gov/food/enforcement.json?search=report_date:[20191231+TO+20200909]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda6(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda6(data.results)
     } catch (error) {
       console.log(error)
     }
   }
   const fetchFda7 = async () => {
     const url =  "https://api.fda.gov/food/enforcement.json?search=report_date:[20190801+TO+20191230]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda7(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda7(data.results)
     } catch (error) {
       console.log(error)
     }
   }
   const fetchFda8 = async () => {
     const url =  "https://api.fda.gov/food/enforcement.json?search=report_date:[20190225+TO+20190731]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda8(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda8(data.results)
     } catch (error) {
       console.log(error)
     }
   }
   const fetchFda9 = async () => {
     const url =  "https://api.fda.gov/food/enforcement.json?search=report_date:[20180810+TO+20190224]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda9(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda9(data.results)
     } catch (error) {
       console.log(error)
     }
   }
   const fetchFda10 = async () => {
    const url = "https://api.fda.gov/food/enforcement.json?search=report_date:[20180301+TO+20180809]&limit=1000"
-   const response = await fetch(url)
-    const data = await response.json()
-    try {
-      if(response.ok) {
-        setFda10(data.results)
-      } else {
-        console.log(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+   try {
+    const response = await axios.get(url)
+    const data = await response.data
+    setFda10(data.results)
+  } catch (error) {
+    console.log(error)
   }
+}
   const fetchFda11 = async () => {
     const url = "https://api.fda.gov/food/enforcement.json?search=report_date:[20180101+TO+20180228]&limit=1000"
-    const response = await fetch(url)
-    const data = await response.json()
     try {
-      if(response.ok) {
-        setFda11(data.results)
-      } else {
-        console.log(data)
-      }
+      const response = await axios.get(url)
+      const data = await response.data
+      setFda11(data.results)
     } catch (error) {
       console.log(error)
     }
@@ -232,9 +191,11 @@ function RecallProvider({ children }) {
     ];
   };
 
+  /*
   const fetchUsda = async () => {
     const response = await fetch("https://corsproxy.io/?https://www.fsis.usda.gov/fsis/api/recall/v/1")
     const data = await response.json() 
+    console.log(response)
     try {
       if (response.ok) {
         setFsis(data);
@@ -245,11 +206,30 @@ function RecallProvider({ children }) {
     } catch (error) {
       console.log(error)
     };
+  }*/
+  const fetchUsda = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: "https://corsproxy.io/?https://www.fsis.usda.gov/fsis/api/recall/v/1",
+      headers: {}
+    };
+    
+    try {
+      const response = await axios.request(config)
+      const data = await response.data
+      setFsis(data)
+      console.log(data)
+    } catch (error) {
+      setErrorFsis(error.message)
+      console.log(error.message)
+    }
   }
 
   const contextValue = {
     fda: fda,
     fsis: fsis,
+    errorFsis: errorFsis,
     returnFda,
     fetchUsda
   };

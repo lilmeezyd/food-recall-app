@@ -13,6 +13,7 @@ import UsdaRecall from "./pages/UsdaRecall";
 import FdaRecall from "./pages/FdaRecall";
 import RequestPasswordReset from "./pages/RequestPasswordReset";
 import ResetPassword from "./pages/ResetPassword";
+import Unknown from "./pages/Unknown";
 import RecallProvider from "./RecallContext";
 import AuthenticationProvider from "./AuthenticationContext";
 import PrivateRoute from "./router/PrivateRoute";
@@ -42,6 +43,7 @@ function App() {
                 element={<RequestPasswordReset />}
               />
               <Route path="/password-reset" element={<ResetPassword />} />
+              <Route path="*" element={<Unknown Request/>}/>
             </Routes>
           </div>
           <Footer />

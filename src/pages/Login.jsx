@@ -6,22 +6,22 @@ function Login() {
   
   const initialState = {email: '', password: ''}
   const [ data, setData ] = useState(initialState)
-  const login = useAuth()
+  const { message, login, reset } = useAuth()
 
   const { email, password } = data
 
   useEffect(() => {
-    !!login.message && setTimeout(() => {
-      login.reset()
+    !!message && setTimeout(() => {
+      reset()
     }, 2000)
   
     return () => {
       
     }
-  }, [login])
+  }, [message, reset])
   const onSubmit = (e) => {
     e.preventDefault()
-    login.login(email,password)
+    login(email,password)
     setData(initialState)
   }
 
@@ -33,8 +33,7 @@ function Login() {
   return (
     <div className='form-control'>
       <div className='login'>Login into Food Recall Tool</div>
-      <form onSubmit={onSubmit}>{!!login.message &&
-      <div role='alert' className='error-msg alert'>{login.message}</div>}
+      <form onSubmit={onSubmit}>{!!message && <div role='alert' className='error-msg alert'>{message}</div>}
         <div className='form-group'>
           <label htmlFor="Email">Email</label>
           <input onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type="email" />
