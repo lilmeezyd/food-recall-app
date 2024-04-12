@@ -8,6 +8,11 @@ export const AuthenticaticationContext = createContext({
   profileNotify: null,
   token: null,
   message: "",
+  passMessage: "",
+  notMessage: "",
+  detailMessage: "",
+  errorMsg: false,
+  successMsg: false,
   reset: () => {},
   register: () => {},
   login: () => {},
@@ -34,7 +39,10 @@ function AuthenticationProvider({ children }) {
     fda: false,
     usda: false,
   });
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("")
+  const [passMessage, setPassMessage] = useState("");
+  const [notMessage, setNotMessage] = useState("")
+  const [detailMessage, setDetailMessage] = useState("")
   const [errorMsg, setErrorMsg] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
   const navigate = useNavigate();
@@ -81,6 +89,7 @@ function AuthenticationProvider({ children }) {
         navigate("/");
     } catch (error) {
       console.log(error);
+      setMessage(error.response.data.msg)
     }
   };
 
@@ -154,9 +163,12 @@ function AuthenticationProvider({ children }) {
       const response = await axios.put(
         "http://localhost:8000/api/users/newPassword", formData, config);
       const data = await response.data;
-        console.log(data);
+      setPassMessage(data.msg)
+      setSuccessMsg(true)
     } catch (error) {
       console.log(error);
+      setPassMessage(error.response.data.msg)
+      setErrorMsg(true)
     }
   };
 
@@ -177,8 +189,12 @@ function AuthenticationProvider({ children }) {
         "http://localhost:8000/api/users/notifications", formData, config);
       const data = await response.data;
         console.log(data);
+        setNotMessage(data.msg)
+        setSuccessMsg(true)
     } catch (error) {
       console.log(error);
+      setNotMessage(error.response.data.msg)
+      setErrorMsg(true)
     }
   };
 
@@ -200,13 +216,20 @@ function AuthenticationProvider({ children }) {
         "http://localhost:8000/api/users/updateDetails", formData, config);
       const data = await response.data;
         console.log(data);
+        setDetailMessage(data.msg)
+        setSuccessMsg(true)
     } catch (error) {
       console.log(error);
+      setDetailMessage(error.response.data.msg)
+      setErrorMsg(true)
     }
   };
 
   const reset = () => {
-    setMessage("");
+    setMessage("")
+    setPassMessage("");
+    setNotMessage("");
+    setDetailMessage("");
     setErrorMsg(false);
     setSuccessMsg(false);
   };
@@ -217,6 +240,11 @@ function AuthenticationProvider({ children }) {
     profileNotify,
     token: token,
     message: message,
+    passMessage: passMessage,
+    notMessage: notMessage,
+    detailMessage: detailMessage,
+    errorMsg: errorMsg,
+    successMsg: successMsg,
     register,
     login,
     reset,

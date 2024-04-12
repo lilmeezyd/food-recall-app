@@ -25,9 +25,9 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const [status, setStatus] = useState('')
     const [state, setState] = useState('')
     const [year, setYear] = useState('')
-    const [curPage, setCurPage] = useState(1)
+    const [curPage, setCurPage] = useState(1) 
   
-    const recalls = useRecall().fsis
+    const { fsis: recalls, errorFsis } = useRecall()
     const pageSize = 10
   
     const returnRecalls = (recalls, curPage, pageSize) => {
@@ -55,40 +55,8 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
       .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
       console.log(new Set(recalls.map(x=>x.field_establishment)))
       return newArray
-      /*if (cause.length === 0 &&
-        state.length === 0 && status.length === 0 &&
-        risk.length === 0 && year.length === 0) {
-          console.log(recalls)
-          newArray.push(...recalls)
-        return newArray
-        .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
-      } else {
-        cause.forEach(x => {
-          newArray.push(...recalls
-            .filter(y => y.field_recall_reason.includes(x)))
-        })
-        state.forEach(x => { 
-          newArray.push(...recalls.filter(y => y.field_states.includes(x))) 
-        })
-        status.forEach(x => {
-          newArray.push(...recalls.filter(y => y.field_recall_type === x))
-        })
-        risk.forEach(x => {
-          newArray.push(...recalls.filter(y => y.field_recall_classification === x))
-        })
-        year.forEach(x => {
-          newArray.push(...recalls.filter(y => y.field_year === x))
-        })
-        console.log(causeArray)
-        console.log(newArray)
-        return newArray
-        .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
-      }*/
     }
-  /*
-    const editedRecall = useMemo(() => returnEdited(recalls, cause, state, status, risk, year)
-      , [recalls, cause, state, status, risk, year])
-  */
+ 
     const editedRecalls = useMemo(() => returnEdited(recalls, word, cause, state, status, risk, year)
       , [recalls, word, cause, state, status, risk, year])
   
@@ -176,83 +144,49 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const handleCause = (e) => {
       const checkedCause = e.target.value
       if (e.target.checked) {
-        //setCause([...cause, checkedCause])
         setCause(checkedCause)
         setCurPage(1)
       } else {
         setCause('')
         setCurPage(1)
-        //setCause(cause.filter(x => x !== checkedCause))
       }
     }
-    /*
-      const handleAllCauses = (e) => {
-        const allCauses = createCauses().map(reason => reason)
-        setCause(e.target.checked ? allCauses : [])
-      }
-    */
     const handleRisk = (e) => {
       const checkedRisk = e.target.value
       if (e.target.checked) {
-        //setRisk([...risk, checkedRisk])
         setCurPage(1)
         setRisk(checkedRisk)
       } else {
-        //setRisk(risk.filter(x => x !== checkedRisk))
         setRisk('')
         setCurPage(1)
       }
     }
-    /*
-      const handleAllRisks = (e) => {
-        const allRisks = Array.from(new Set(fsis.map(x => x.field_recall_classification))).map(reason => reason)
-        setRisk(e.target.checked ? allRisks : [])
-      }
-    */
     const handleStatus = (e) => {
       const checkedStatus = e.target.value
       if (e.target.checked) {
-        //setStatus([...status, checkedStatus])
         setCurPage(1)
         setStatus(checkedStatus)
       } else {
-        //setStatus(status.filter(x => x !== checkedStatus))
         setCurPage(1)
         setStatus('')
       }
     }
-    /*
-      const handleAllStatuses = (e) => {
-        const allStatus = Array.from(new Set(fsis.map(x => x.field_recall_type))).map(reason => reason)
-        setStatus(e.target.checked ? allStatus : [])
-      }
-    */
     const handleState = (e) => {
       const checkedState = e.target.value
       if (e.target.checked) {
-        //setState([...state, checkedState])
         setCurPage(1)
         setState(checkedState)
       } else {
         setState('')
         setCurPage(1)
-        //setState(state.filter(x => x !== checkedState))
       }
     }
-    /*
-      const handleAllStates = (e) => {
-        const allStates = createStates().map(reason => reason)
-        setState(e.target.checked ? allStates : [])
-      }
-    */
     const handleYear = (e) => {
       const checkedYear = e.target.value
       if (e.target.checked) {
-        //setYear([...year, checkedYear])
         setCurPage(1)
         setYear(checkedYear)
       } else {
-        //setYear(year.filter(x => x !== checkedYear))
         setYear('')
         setCurPage(1)
       }
@@ -260,12 +194,6 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const changePage = (e) => {
       setCurPage(+e.target.value)
     }
-    /*
-      const handleAllYears = (e) => {
-        const allYears = Array.from(new Set(fsis.map(x => x.field_year))).map(reason => reason)
-        setYear(e.target.checked ? allYears : [])
-      }
-    */
     const viewNextPage = () => {
       setCurPage(curPage + 1)
     }
@@ -284,7 +212,10 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
   
   
     return (
-      <div>
+      <>
+      {errorFsis === 'Network Error' && <div>Check your internet connection!</div>}
+      {recalls.length === 0 && errorFsis === '' && <div>Loading...</div>}
+      {recalls.length > 0  && <div>
         <div className='search-filter'>
           <div className="search">
             <div className='search-filter-heading'>Search Results</div>
@@ -433,7 +364,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
             </div>
           </div>
         </div>
-        {recalls.length === 0 ? <div>Loading...</div> : <>
+        <>
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
           <Link to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
             <div className='recall-title'>{recall.field_title}</div>
@@ -477,8 +408,10 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
           </button>
         </div>
         </>
-}
-      </div>
+
+      </div>}
+      
+      </>
     )
   }
 

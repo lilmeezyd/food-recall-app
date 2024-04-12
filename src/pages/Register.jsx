@@ -40,23 +40,23 @@ function Register() {
       {!!register.message && 
       <div className='error-msg alert'>{register.message}</div>}
       <div className='form-group'>
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstName">First Name <span>*</span></label>
           <input onChange={onChange} placeholder='Enter First Name' id='firstName' name='firstName' value={firstName} type="text" />
         </div>
         <div className='form-group'>
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastName">Last Name <span>*</span></label>
           <input onChange={onChange} placeholder='Enter Last Name' id='lastName' name='lastName' value={lastName} type="text" />
         </div>
         <div className='form-group'>
-          <label htmlFor="lastName">Email</label>
+          <label htmlFor="lastName">Email <span>*</span></label>
           <input onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type='email' />
         </div>
         <div className='form-group'>
-          <label htmlFor="Password">Password</label>
+          <label htmlFor="Password">Password <span>*</span></label>
           <input onChange={onChange} placeholder='Enter Password' id='password1' name='password1' value={password1} type="password" />
         </div>
         <div className='form-group'>
-          <label htmlFor="Password">Confirm Password</label>
+          <label htmlFor="Password">Confirm Password <span>*</span></label>
           <input onChange={onChange} placeholder='Confirm Password' id='password2' name='password2' value={password2} type="password" />
         </div>
         <div className='form-group'>

@@ -19,6 +19,7 @@ function Login() {
       
     }
   }, [message, reset])
+  
   const onSubmit = (e) => {
     e.preventDefault()
     login(email,password)
@@ -33,7 +34,8 @@ function Login() {
   return (
     <div className='form-control'>
       <div className='login'>Login into Food Recall Tool</div>
-      <form onSubmit={onSubmit}>{!!message && <div role='alert' className='error-msg alert'>{message}</div>}
+      <form onSubmit={onSubmit}>
+        {!!message && <div role='alert' className='error-msg alert'>{message}</div>}
         <div className='form-group'>
           <label htmlFor="Email">Email</label>
           <input onChange={onChange} placeholder='Enter Email' id='email' name='email' value={email} type="email" />

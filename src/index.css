@@ -572,10 +572,16 @@ label {
   padding: 10px 0;
   margin-top: 10px;
   color: white;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
 .error-msg {
-  background: rgb(108, 23, 23, 0.5);
+  background: red;
+}
+
+.success-msg {
+  background: green;
 }
 
 .unknown {

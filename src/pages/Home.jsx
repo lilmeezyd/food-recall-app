@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import { useRecall } from '../RecallContext'
 
 function Home() {
-
-  //const recalls = useContext(RecallContext).fsis
   const { fsis: recalls, errorFsis } = useRecall()
 
   const filteredRecalls = useMemo(() => {

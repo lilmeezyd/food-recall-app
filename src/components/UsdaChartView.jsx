@@ -5,7 +5,7 @@ function UsdaChartView() {
     
     const [yearData, setYearData] = useState({year1: "2010", year2: "2024"})
 
-    const recalls = useRecall().fsis
+    const { fsis: recalls, errorFsis } = useRecall()
 
     const { year1, year2 } = yearData
  
@@ -138,7 +138,9 @@ const data4 = useMemo(() => returnRecallType(recalls, year1, year2), [recalls, y
 
   return (
     <>
-    {recalls.length === 0 ? <div>Loading...</div> : <>
+    {errorFsis === 'Network Error' && <div>Check your internet connection!</div>}
+    {recalls.length === 0 && errorFsis === '' && <div>Loading...</div>}
+    {recalls.length > 0 &&<>
     <div className="chart">
             <div className='chart-heading'>Number of recalls per year since 2010</div>
         <ResponsiveContainer width="100%" height="100%">
