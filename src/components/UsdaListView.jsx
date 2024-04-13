@@ -26,9 +26,11 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const [state, setState] = useState('')
     const [year, setYear] = useState('')
     const [curPage, setCurPage] = useState(1) 
+    const [current, setCurrent] = useState(1)
   
     const { fsis: recalls, errorFsis } = useRecall()
     const pageSize = 10
+    const stateSize = 5
   
     const returnRecalls = (recalls, curPage, pageSize) => {
       const sortRecall = (x,y) => {
@@ -171,16 +173,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
         setStatus('')
       }
     }
-    const handleState = (e) => {
-      const checkedState = e.target.value
-      if (e.target.checked) {
-        setCurPage(1)
-        setState(checkedState)
-      } else {
-        setState('')
-        setCurPage(1)
-      }
-    }
+    
     const handleYear = (e) => {
       const checkedYear = e.target.value
       if (e.target.checked) {
@@ -208,6 +201,48 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     const viewLastPage = () => {
       setCurPage(totalPages)
     }
+
+    const scrollUp = () => {
+      setCurrent(current - 1)
+    }
+    const scrollDown = () => {
+      setCurrent(current + 1)
+    }
+
+    const states = createStates()
+    let totalView = Math.ceil(states.length/ stateSize)
+
+    const returnStates = (states, current, stateSize, state) => {
+      const filterState = (state, idx) => {
+        let start = (current - 1) * stateSize
+        let end = current * stateSize
+        if (idx >= start && idx < end) return true
+      }
+      return states
+        .filter(filterState)
+    }
+
+    const filteredStates = useMemo(
+      () => returnStates(
+        states, current, stateSize
+      ), [states, current, stateSize])
+
+      const handleState = (e) => {
+        const checkedState = e.target.value
+        if (e.target.checked) {
+          const index = filteredStates.findIndex(x => x === checkedState)
+          console.log(index)
+          if(index === 0) { setCurrent(1)}
+          if(index > 0) { 
+            console.log(Math.ceil((index+1)/stateSize))
+            setCurrent(Math.ceil((index+1)/stateSize))}
+          setCurrent(1)
+          setState(checkedState)
+        } else {
+          setState('')
+          setCurrent(1)
+        }
+      }
  
   
   
@@ -322,7 +357,10 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
               }} className='cause'>States
                 {dropDownState ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
               {stateOpen && <div className='options'>
-                {createStates().map((reason, idx) => (
+                {current > 1 && <button onClick={scrollUp} className='btn'>
+                  <img src={chevronUp} alt="chevron-up" />
+                </button>}
+                {filteredStates.map((reason, idx) => (
                   <div key={idx} className='options-group'>
                     <div><input
                       checked={state.includes(reason)}
@@ -330,7 +368,9 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
                     <div><label htmlFor={reason}>{reason}</label></div>
                   </div>
                 ))}
-  
+                  {current < totalView && <button onClick={scrollDown} className='btn'>
+                    <img src={chevronDown} alt="chevron-down" />
+                  </button>}
               </div>}
             </div>
             <div className="filter-param">
