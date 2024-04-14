@@ -1,12 +1,12 @@
 import { BarChart, Bar, Rectangle, Cell, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import states from '../states/states.json'
 import { useState, useMemo, useContext } from 'react'
-import { RecallContext } from '../RecallContext'
+import { useRecall } from '../RecallContext'
 
 function FdaChartView() {
     const [yearData, setYearData] = useState({year1: "2018", year2: "2024"})
 
-    const recalls = useContext(RecallContext).fda
+    const { fda: recalls, errorFda } = useRecall()
 
     const { year1, year2 } = yearData
 
@@ -107,7 +107,9 @@ function FdaChartView() {
     const data3 = useMemo(() => returnStateData(recalls, year1, year2), [recalls, year1, year2])
   return (
     <>
-    {recalls.length === 0 ? <div>Loading...</div> : <>
+    {errorFda === 'Network Error' && <div>Check your internet connection!</div>}
+      {recalls.length === 0 && errorFda === '' && <div>Loading...</div>}
+    {recalls.length > 0 && <>
     <div className="chart">
             <div className='chart-heading'>Number of recalls per year since 2018</div>
         <ResponsiveContainer width="100%" height="100%">

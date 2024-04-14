@@ -13,7 +13,7 @@ function RecallProvider({ children }) {
   const [fda, setFda] = useState([]);
   const [fsis, setFsis] = useState([]);
   const [ errorFsis, setErrorFsis] = useState('')
-  const { errorFda, setErrorFda } = useState('')
+  const [ errorFda, setErrorFda ] = useState('')
 
   useEffect(() => {
 
@@ -36,6 +36,7 @@ function RecallProvider({ children }) {
       return responses;
     }
     (async () => {
+      try {
       await makeMultipleAPICalls([
         "https://api.fda.gov/food/enforcement.json?api_key=UfWlZLSEWUUJqeY3s0Qagdt7u5vsDThx1Jb4zKSA&search=report_date:[20231001+TO+20241231]&limit=1000",
         "https://api.fda.gov/food/enforcement.json?search=report_date:[20230323+TO+20230930]&limit=1000",
@@ -50,6 +51,11 @@ function RecallProvider({ children }) {
         "https://api.fda.gov/food/enforcement.json?search=report_date:[20180301+TO+20180809]&limit=1000",
         "https://api.fda.gov/food/enforcement.json?search=report_date:[20180101+TO+20180228]&limit=1000",
       ]);
+        
+      } catch (error) {
+        setErrorFda(error.message)
+        console.log(error.message)
+      }
     })()
     
     

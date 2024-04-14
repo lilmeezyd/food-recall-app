@@ -8,7 +8,7 @@ import lastPage from '../static/last_page.png'
 import firstPage from '../static/first_page.png'
 import prevPage from "../static/chevron_left.png"
 import nextPage from "../static/chevron_right.png"
-import { RecallContext } from '../RecallContext'
+import { useRecall } from '../RecallContext'
 
 function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [dropDownState, setDropDownState] = useState(false)
@@ -26,8 +26,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [year, setYear] = useState('')
     const [curPage, setCurPage] = useState(1)
   
-    //const recalls = enforcement.results
-    const recalls = useContext(RecallContext).fda
+    const { fda: recalls, errorFda } = useRecall()
     const pageSize = 10
    
   
@@ -166,7 +165,10 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     }
   
     return (
-      <div>
+      <>
+      {errorFda === 'Network Error' && <div>Check your internet connection!</div>}
+      {recalls.length === 0 && errorFda === '' && <div>Loading...</div>}
+      {recalls.length > 0  && <div>
         <div className='search-filter'>
         <div className="search">
         <div className='search-filter-heading'>Search Results</div>
@@ -336,7 +338,8 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
           </button>
         </div>
         </>}
-        </div>
+        </div>}
+        </>
     )
   }
 
