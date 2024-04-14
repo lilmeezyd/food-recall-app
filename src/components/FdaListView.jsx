@@ -27,7 +27,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [curPage, setCurPage] = useState(1)
   
     //const recalls = enforcement.results
-    const recalls = useContext(RecallContext).returnFda()
+    const recalls = useContext(RecallContext).fda
     const pageSize = 10
    
   

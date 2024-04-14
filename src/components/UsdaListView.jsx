@@ -95,7 +95,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
   
     const createStates = () => {
       const newArray = []
-      editedRecalls.map(x => x.field_states).filter(x => x !== "").forEach(x => {
+      recalls.map(x => x.field_states).filter(x => x !== "").forEach(x => {
         if (x.includes(',')) {
           newArray.push(...x.split(','))
         } else {
@@ -230,13 +230,10 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
       const handleState = (e) => {
         const checkedState = e.target.value
         if (e.target.checked) {
-          const index = filteredStates.findIndex(x => x === checkedState)
-          console.log(index)
+          const index = states.findIndex(x => x === checkedState)
           if(index === 0) { setCurrent(1)}
           if(index > 0) { 
-            console.log(Math.ceil((index+1)/stateSize))
             setCurrent(Math.ceil((index+1)/stateSize))}
-          setCurrent(1)
           setState(checkedState)
         } else {
           setState('')

@@ -20,7 +20,7 @@ function Home() {
     </div>
     {recalls.length > 0  && (<div className="latest-recalls">
     {filteredRecalls.map((recall, idx) => (
-      <Link data-testid="todo" to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
+      <Link data-testid="recall" to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
         <div className='home-field-title'>{recall.field_title}</div>
         <div className='recall-date'><span>Date:</span>&nbsp; {recall.field_recall_date}</div>
       </Link>

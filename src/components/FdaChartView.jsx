@@ -6,7 +6,7 @@ import { RecallContext } from '../RecallContext'
 function FdaChartView() {
     const [yearData, setYearData] = useState({year1: "2018", year2: "2024"})
 
-    const recalls = useContext(RecallContext).returnFda()
+    const recalls = useContext(RecallContext).fda
 
     const { year1, year2 } = yearData
 
