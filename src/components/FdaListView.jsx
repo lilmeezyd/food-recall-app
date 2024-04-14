@@ -38,7 +38,6 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
       .filter(x => status.length === 0 ? x.status : x.status=== status)
       .filter(x => year.length === 0 ? x.report_date : x.report_date.substring(0,4) === year)
       .filter(x => x.reason_for_recall.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
-      console.log(new Set(recalls.map(x => x.recalling_firm)))
       return newArray
     }
   

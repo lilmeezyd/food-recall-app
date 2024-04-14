@@ -3,7 +3,7 @@ import { useRecall } from '../RecallContext'
 
 
 function UsdaRecall() {
-  const recalls = useRecall().fsis
+  const{ fsis: recalls } = useRecall()
     const { usdaId } = useParams()
     const recall = recalls.find(recall => recall.field_recall_number === usdaId)
   return (

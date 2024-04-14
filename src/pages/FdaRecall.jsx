@@ -1,11 +1,10 @@
-import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { RecallContext } from '../RecallContext'
+import { useRecall } from '../RecallContext'
 
 
 function FdaRecall() {
 
-  const recalls = useContext(RecallContext).returnFda()
+  const{ fda: recalls } = useRecall()
     const {fdaId} = useParams()
     const recall = recalls.find(recall => recall.event_id === fdaId)
   return (
