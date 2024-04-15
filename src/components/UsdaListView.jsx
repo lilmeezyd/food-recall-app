@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
@@ -235,9 +235,11 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
           if(index > 0) { 
             setCurrent(Math.ceil((index+1)/stateSize))}
           setState(checkedState)
+          setCurPage(1)
         } else {
           setState('')
           setCurrent(1)
+          setCurPage(1)
         }
       }
  

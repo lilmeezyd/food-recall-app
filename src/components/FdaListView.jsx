@@ -1,7 +1,6 @@
-import { useState, useMemo, useContext } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-// enforcement from '../fda/enforcement.json'
-import states from '../states/states.json'
+import statesFile from '../states/states.json'
 import chevronDown from '../static/chevron-down.svg'
 import chevronUp from '../static/chevron-up.svg'
 import lastPage from '../static/last_page.png'
@@ -25,9 +24,14 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     const [state, setState] = useState('')
     const [year, setYear] = useState('')
     const [curPage, setCurPage] = useState(1)
+    const [current, setCurrent] = useState(1)
   
     const { fda: recalls, errorFda } = useRecall()
     const pageSize = 10
+    const stateSize = 5
+    
+    const states = Object.keys(statesFile).sort()
+    let totalView = Math.ceil(states.length/ stateSize)
    
   
     const returnEdited = (recalls, word, state, status, risk, year) => {
@@ -122,11 +126,39 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
         setCurPage(1)
       }
     }
+
+    const scrollUp = () => {
+      setCurrent(current - 1)
+    }
+    const scrollDown = () => {
+      setCurrent(current + 1)
+    }
+
+
+    const returnStates = (states, current, stateSize, state) => {
+      const filterState = (state, idx) => {
+        let start = (current - 1) * stateSize
+        let end = current * stateSize
+        if (idx >= start && idx < end) return true
+      }
+      return states
+        .filter(filterState)
+    }
+
+    const filteredStates = useMemo(
+      () => returnStates(
+        states, current, stateSize
+      ), [states, current, stateSize])
     
     const handleState = (e) => {
       const checkedState = e.target.value
+      console.log(checkedState)
       if (e.target.checked) {
-        setState(checkedState)
+        const index = states.findIndex(x => x === checkedState)
+          if(index === 0) { setCurrent(1)}
+          if(index > 0) { 
+            setCurrent(Math.ceil((index+1)/stateSize))}
+          setState(checkedState)
         setCurPage(1)
       } else {
         setState('')
@@ -248,7 +280,10 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
           }} className='cause'>States
           {dropDownState ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
           {stateOpen && <div className='options'>
-            {Object.keys(states).sort().map((st, idx) => (
+          {current > 1 && <button onClick={scrollUp} className='btn'>
+                  <img src={chevronUp} alt="chevron-up" />
+                </button>}
+            {filteredStates.map((st, idx) => (
               <div key={idx} className='options-group'>
                 <div><input
                 checked={state.includes(st)}
@@ -257,6 +292,9 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
                     <div><label htmlFor={st}>{st}</label></div>
               </div>
             ))}
+            {current < totalView && <button onClick={scrollDown} className='btn'>
+                    <img src={chevronDown} alt="chevron-down" />
+                  </button>}
           </div>}
           </div>
           <div className="filter-param">

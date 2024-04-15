@@ -19,18 +19,18 @@ describe("Login component", () => {
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(buttonElement).toBeInTheDocument();
-    /*fireEvent.change(emailInput, { target: {value: email}})
-    fireEvent.change(passwordInput, { target: {value: password}})*/
+    fireEvent.change(emailInput, { target: {value: 'denismoini@yahoo.com'}})
+    fireEvent.change(passwordInput, { target: {value: 'password'}})
     //const element = screen.getByTestId('todo')
     //await userEvent.click(buttonElement);
     //expect(element).toBeInTheDocument()
     //screen.debug();
 
-      fireEvent.change(emailInput, {
+     /* fireEvent.change(emailInput, {
         target: { value: "denismoini09@gmail.com" },
       });
       fireEvent.change(passwordInput, { target: { value: "1234567" } });
-      await userEvent.click(buttonElement);
+      await userEvent.click(buttonElement);*/
       //expect(onLogin.login).toHaveBeenCalled()
 
     screen.debug();

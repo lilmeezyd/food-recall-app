@@ -88,8 +88,8 @@ function AuthenticationProvider({ children }) {
         localStorage.setItem("user", JSON.stringify({ email, token }));
         navigate("/");
     } catch (error) {
-      console.log(error);
-      setMessage(error.response.data.msg)
+      let errorMsg = error?.response?.data?.msg || error?.message
+     setMessage(errorMsg)
     }
   };
 
@@ -109,8 +109,8 @@ function AuthenticationProvider({ children }) {
       localStorage.setItem("user", JSON.stringify({ email, token }));
       navigate("/");
     } catch (error) {
-      console.log(error.response.data.msg);
-      setMessage(error.response.data.msg)
+      let errorMsg = error?.response?.data?.msg || error?.message
+     setMessage(errorMsg)
     }
   };
 
@@ -130,7 +130,8 @@ function AuthenticationProvider({ children }) {
       const data = await response.data;
       console.log(data)
     } catch (error) {
-      console.log(error);
+      let errorMsg = error?.response?.data?.msg || error?.message
+      setMessage(errorMsg)
     }
   };
 
@@ -143,7 +144,8 @@ function AuthenticationProvider({ children }) {
         console.log(data);
         navigate("/");
     } catch (error) {
-      console.log(error);
+      let errorMsg = error?.response?.data?.msg || error?.message
+     setMessage(errorMsg)
     }
   };
 
@@ -166,8 +168,8 @@ function AuthenticationProvider({ children }) {
       setPassMessage(data.msg)
       setSuccessMsg(true)
     } catch (error) {
-      console.log(error);
-      setPassMessage(error.response.data.msg)
+      let errorMsg = error?.response?.data?.msg || error?.message
+     setMessage(errorMsg)
       setErrorMsg(true)
     }
   };
@@ -192,8 +194,8 @@ function AuthenticationProvider({ children }) {
         setNotMessage(data.msg)
         setSuccessMsg(true)
     } catch (error) {
-      console.log(error);
-      setNotMessage(error.response.data.msg)
+      let errorMsg = error?.response?.data?.msg || error?.message
+     setMessage(errorMsg)
       setErrorMsg(true)
     }
   };
@@ -219,8 +221,8 @@ function AuthenticationProvider({ children }) {
         setDetailMessage(data.msg)
         setSuccessMsg(true)
     } catch (error) {
-      console.log(error);
-      setDetailMessage(error.response.data.msg)
+      let errorMsg = error?.response?.data?.msg || error?.message
+     setMessage(errorMsg)
       setErrorMsg(true)
     }
   };
