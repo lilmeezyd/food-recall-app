@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react'
-import { useAuth } from '../AuthenticationContext'
-import { useNavigate } from 'react-router-dom'
 import UserDetails from '../components/UserDetails'
 import ChangeNotifications from '../components/ChangeNotifications'
 import ChangePassword from '../components/ChangePassword'

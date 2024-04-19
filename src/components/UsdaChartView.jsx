@@ -1,4 +1,4 @@
-import { BarChart, Bar, Rectangle, Cell, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, Rectangle, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useState, useMemo } from 'react'
 import { useRecall } from '../RecallContext'
 function UsdaChartView() {
@@ -35,12 +35,12 @@ const returnData = (recalls, year1, year2) => {
 
 const returnYearData = () => {
     const data = []
-    Array.from(new Set(recalls.map(x => x.field_year)))
-    .sort((x,y) => {
+    const sortRecall = (x,y) => {
         if(x>y) return 1
         if(x<y) return -1
     }
-    )
+    Array.from(new Set(recalls.map(x => x.field_year)))
+    .sort(sortRecall)
     .forEach(field => {
         const subData = {name:field, recalls:0}
         recalls.forEach(recall => recall.field_year === field && subData.recalls++)
@@ -51,12 +51,12 @@ const returnYearData = () => {
 
 const returnRiskData = (recalls, year1, year2) => {
     const data = []
-    Array.from(new Set(recalls.map(x => x.field_recall_classification)))
-    .sort((x,y) => {
+    const sortRecall = (x,y) => {
         if(x>y) return 1
         if(x<y) return -1
     }
-    )
+    Array.from(new Set(recalls.map(x => x.field_recall_classification)))
+    .sort(sortRecall)
     .forEach(field => {
         const subData = {name:field, recalls:0}
         recalls
@@ -69,12 +69,12 @@ const returnRiskData = (recalls, year1, year2) => {
 
 const returnRecallType = (recalls, year1, year2) => {
     const data = []
-    Array.from(new Set(recalls.map(x => x.field_recall_type)))
-    .sort((x,y) => {
+    const sortRecall = (x,y) => {
         if(x>y) return 1
         if(x<y) return -1
     }
-    )
+    Array.from(new Set(recalls.map(x => x.field_recall_type)))
+    .sort(sortRecall)
     .forEach(field => {
         const subData = {name:field, recalls:0}
         recalls
@@ -139,7 +139,7 @@ const data4 = useMemo(() => returnRecallType(recalls, year1, year2), [recalls, y
   return (
     <>
     {errorFsis === 'Network Error' && <div>Check your internet connection!</div>}
-    {recalls.length === 0 && errorFsis === '' && <div>Loading...</div>}
+    {recalls.length === 0 && errorFsis === '' && <div className='spinner'></div>}
     {recalls.length > 0 &&<>
     <div className="chart">
             <div className='chart-heading'>Number of recalls per year since 2010</div>
@@ -157,21 +157,21 @@ const data4 = useMemo(() => returnRecallType(recalls, year1, year2), [recalls, y
         </div>
     <div className='jump'>
         <label htmlFor="jump">Range of years:</label>
-        <select onChange={changeYear1} name="jump" id="jump">{
+        <select onChange={changeYear1} name="jump" id="jump1">{
             Array.from(new Set(recalls.map(x => x.field_year))).sort((x, y) => {
                 if (x > y) return 1
                 return -1
               }).map((year, idx) => (
-                <option key={idx} name={year} value={year}>{year}</option>
+                <option selected={year === year1} key={idx} name={year} value={year}>{year}</option>
               ))
         }</select>
         <label htmlFor="jump">to:</label>
-        <select onChange={changeYear2} name="jump" id="jump">{
+        <select onChange={changeYear2} name="jump" id="jump2">{
             Array.from(new Set(recalls.map(x => x.field_year))).sort((x, y) => {
                 if (x > y) return -1
                 return 1
-              }).map((year2, idx) => (
-                <option key={idx} name={year2} value={year2}>{year2}</option>
+              }).map((year, idx) => (
+                <option selected={year === year2}  key={idx} name={year} value={year}>{year}</option>
               ))
         }</select>
         </div>

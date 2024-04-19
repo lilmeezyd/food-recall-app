@@ -72,7 +72,7 @@ function ChangeNotifications() {
                         <div className="foot-note-notify">Get notifications from the Food and Drug Administration</div>
                     </div>
                     <div className='form-group'>
-                        <button className='btn'>Save</button>
+                        <button className='btn' id='notice'>Save</button>
                     </div>
                 </form>
             </div>

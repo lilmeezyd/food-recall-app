@@ -55,7 +55,6 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
       .filter(x => status.length === 0 ? x.field_recall_type : x.field_recall_type === status)
       .filter(x => year.length === 0 ? x.field_year : x.field_year === year)
       .filter(x => x.field_title.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
-      console.log(new Set(recalls.map(x=>x.field_establishment)))
       return newArray
     }
  
@@ -248,8 +247,8 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
     return (
       <>
       {errorFsis === 'Network Error' && <div>Check your internet connection!</div>}
-      {recalls.length === 0 && errorFsis === '' && <div>Loading...</div>}
-      {recalls.length > 0  && <div>
+      {recalls.length === 0 && errorFsis === '' && <div className='spinner'></div>}
+      {recalls.length > 0  && <div className='view-recalls'>
         <div className='search-filter'>
           <div className="search">
             <div className='search-filter-heading'>Search Results</div>
@@ -353,7 +352,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
                 setStatusOpen(false)
                 setYearOpen(false)
                 showStates()
-              }} className='cause'>States
+              }} className='cause' id='states'>States
                 {dropDownState ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
               {stateOpen && <div className='options'>
                 {current > 1 && <button onClick={scrollUp} className='btn'>
@@ -384,7 +383,7 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
                 setStatusOpen(false)
                 setCauseOpen(false)
                 showYear()
-              }} className='cause'>Year
+              }} className='cause' id='year'>Year
                 {dropDownYear ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
               {yearOpen && <div className='options'>
                 {Array.from(new Set(editedRecalls.map(x => x.field_year))).sort((x, y) => {
@@ -406,7 +405,9 @@ function UsdaListView() {const [dropDownCause, setDropDownCause] = useState(fals
         <>
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
           <Link to={`/recalls/usda/${recall.field_recall_number}`} key={idx} className="recall-list">
-            <div className='recall-title'>{recall.field_title}</div>
+            <div className='recall-title'>
+              {recall.field_title}
+            </div>
             {!!recall.field_establishment.length && <div className='company'><span>Company:</span>&nbsp;{recall.field_establishment}</div>}
             <div className='recall-group'>
               <div className='risk-level'><span>Risk:</span>&nbsp;{recall.field_recall_classification}</div>

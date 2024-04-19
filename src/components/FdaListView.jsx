@@ -198,7 +198,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
     return (
       <>
       {errorFda === 'Network Error' && <div>Check your internet connection!</div>}
-      {recalls.length === 0 && errorFda === '' && <div>Loading...</div>}
+      {recalls.length === 0 && errorFda === '' && <div className='spinner'></div>}
       {recalls.length > 0  && <div>
         <div className='search-filter'>
         <div className="search">
@@ -277,7 +277,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
             setStatusOpen(false)
             setYearOpen(false)
             showStates()
-          }} className='cause'>States
+          }} className='cause' id='states'>States
           {dropDownState ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
           {stateOpen && <div className='options'>
           {current > 1 && <button onClick={scrollUp} className='btn'>
@@ -307,7 +307,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
                 setStateOpen(false)
                 setStatusOpen(false)
                 showYear()
-              }} className='cause'>Year 
+              }} className='cause' id='year'>Year 
           {dropDownYear ? <img src={chevronUp} alt="chevron-up" /> : <img src={chevronDown} alt="chevron-down" />}</div>
           {yearOpen && <div className='options'>
             {Array.from(new Set(editedRecalls.map(x => x.report_date.substring(0,4)))).sort((x, y) => {
@@ -327,7 +327,8 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
         </div>
           </div>
         </div>
-        {recalls.length === 0 ? <div>Loading...</div> : <>
+        
+        <>
         {filteredRecalls.length === 0 ? <div className='not-found'>No Recalls Found!</div> : filteredRecalls.map((recall, idx) => (
           <Link to={`/recalls/fda/${recall.event_id}`} key={idx} className="recall-list">
           <div className='recall-title'>{recall.reason_for_recall}</div>
@@ -342,7 +343,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
                 <span>Date:</span>&nbsp;
                 {recall.report_date.substring(0,4)+'-'
                 +recall.report_date.substring(4,6)+'-'
-                +recall.report_date.substring(6) }</div>
+                +recall.report_date.substring(6) }</div> 
               <div className='recall-states'><span>Distribution Area:</span>&nbsp; {recall.distribution_pattern}</div>
             </div>
         </Link>
@@ -374,7 +375,7 @@ function FdaListView() {const [dropDownRisk, setDropDownRisk] = useState(false)
             <img src={lastPage} alt="last_page" />
           </button>
         </div>
-        </>}
+        </>
         </div>}
         </>
     )

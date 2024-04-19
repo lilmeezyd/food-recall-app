@@ -1,10 +1,10 @@
-import { BarChart, Bar, Rectangle, Cell, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, Rectangle, Legend, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import states from '../states/states.json'
-import { useState, useMemo, useContext } from 'react'
+import { useState, useMemo } from 'react'
 import { useRecall } from '../RecallContext'
 
 function FdaChartView() {
-    const [yearData, setYearData] = useState({year1: "2018", year2: "2024"})
+    const [yearData, setYearData] = useState({year1: "2015", year2: "2024"})
 
     const { fda: recalls, errorFda } = useRecall()
 
@@ -12,11 +12,10 @@ function FdaChartView() {
 
     const returnYearData = () => {
         const data = []
-        console.log(recalls)
         Array.from(new Set(recalls.map(x => x.report_date.substring(0,4))))
         .sort((x,y) => {
             if(x>y) return 1
-            if(x<y) return -1
+            return -1
         }
         )
         .forEach(field => {
@@ -32,7 +31,7 @@ function FdaChartView() {
         Array.from(new Set(recalls.map(x => x.classification)))
         .sort((x,y) => {
             if(x>y) return 1
-            if(x<y) return -1
+            return -1
         }
         )
         .forEach(field => {
@@ -50,7 +49,7 @@ function FdaChartView() {
         Array.from(new Set(recalls.map(x => x.status)))
         .sort((x,y) => {
             if(x>y) return 1
-            if(x<y) return -1
+            return -1
         }
         )
         .forEach(field => {
@@ -108,7 +107,7 @@ function FdaChartView() {
   return (
     <>
     {errorFda === 'Network Error' && <div>Check your internet connection!</div>}
-      {recalls.length === 0 && errorFda === '' && <div>Loading...</div>}
+      {recalls.length === 0 && errorFda === '' && <div className='spinner'></div>}
     {recalls.length > 0 && <>
     <div className="chart">
             <div className='chart-heading'>Number of recalls per year since 2018</div>
@@ -126,21 +125,21 @@ function FdaChartView() {
         </div>
     <div className='jump'>
         <label htmlFor="jump">Range of years:</label>
-        <select onChange={changeYear1} name="jump" id="jump">{
+        <select onChange={changeYear1} name="jump" id="jump1">{
             Array.from(new Set(recalls.map(x => x.report_date.substring(0,4)))).sort((x, y) => {
                 if (x > y) return 1
                 return -1
-              }).map((year1, idx) => (
-                <option key={idx} name={year1} value={year1}>{year1}</option>
+              }).map((year, idx) => (
+                <option selected={year === year1} key={idx} name={year} value={year}>{year}</option>
               ))
         }</select>
         <label htmlFor="jump">to:</label>
-        <select onChange={changeYear2} name="jump" id="jump">{
+        <select onChange={changeYear2} name="jump" id="jump2">{
             Array.from(new Set(recalls.map(x => x.report_date.substring(0,4)))).sort((x, y) => {
                 if (x > y) return -1
                 return 1
-              }).map((year2, idx) => (
-                <option key={idx} name={year2} value={year2}>{year2}</option>
+              }).map((year, idx) => (
+                <option selected={year === year2} key={idx} name={year} value={year}>{year}</option>
               ))
         }</select>
         </div>

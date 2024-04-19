@@ -169,7 +169,7 @@ function AuthenticationProvider({ children }) {
       setSuccessMsg(true)
     } catch (error) {
       let errorMsg = error?.response?.data?.msg || error?.message
-     setMessage(errorMsg)
+     setPassMessage(errorMsg)
       setErrorMsg(true)
     }
   };
@@ -195,18 +195,18 @@ function AuthenticationProvider({ children }) {
         setSuccessMsg(true)
     } catch (error) {
       let errorMsg = error?.response?.data?.msg || error?.message
-     setMessage(errorMsg)
+     setNotMessage(errorMsg)
       setErrorMsg(true)
     }
   };
 
   const updateDetails = async (firstName, lastName) => {
     const formData = { firstName, lastName };
-    setProfile((prevState) => ({
+    !!firstName && !!lastName && (setProfile((prevState) => ({
       ...prevState,
       firstName,
       lastName,
-    }));
+    })));
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -217,12 +217,12 @@ function AuthenticationProvider({ children }) {
       const response = await axios.put(
         "http://localhost:8000/api/users/updateDetails", formData, config);
       const data = await response.data;
-        console.log(data);
         setDetailMessage(data.msg)
         setSuccessMsg(true)
     } catch (error) {
       let errorMsg = error?.response?.data?.msg || error?.message
-     setMessage(errorMsg)
+      console.log(errorMsg)
+     setDetailMessage(errorMsg)
       setErrorMsg(true)
     }
   };

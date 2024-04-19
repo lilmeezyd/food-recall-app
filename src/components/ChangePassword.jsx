@@ -57,7 +57,7 @@ function ChangePassword() {
                             placeholder='Confirm New Password' id='confirmPassword' name='confirmPassword' value={confirmPassword} type="password" />
                     </div>
                     <div className='form-group'>
-                        <button className='btn'>Save</button>
+                        <button className='btn' id='password'>Save</button>
                     </div>
                 </form>
             </div>

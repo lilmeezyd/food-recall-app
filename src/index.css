@@ -603,6 +603,26 @@ label {
   font-weight: 500;
 }
 
+.spinner {
+  width: 25px;
+  height: 25px;
+  margin-top: 5rem;
+  border: 3px solid #c4dec4;
+  border-left-color: rgb(82, 82, 94);
+  border-radius: 50%;
+  margin: auto;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 
 @media (max-width: 760px) {

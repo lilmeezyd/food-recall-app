@@ -4,7 +4,7 @@ import { useAuth } from '../AuthenticationContext'
 function UserDetails() {
 
     const user = useAuth()
-    const { detailMessage:message, errorMsg, successMsg, reset } = user
+    const { detailMessage:message, errorMsg, reset } = user
     const [data, setData] = useState({
         firstName: '',
         lastName: ''
@@ -57,7 +57,7 @@ function UserDetails() {
                         <div className='email'>{user.profile.email}</div>
                     </div>
                     <div className='form-group'>
-                        <button className='btn'>Save</button>
+                        <button className='btn' id='details'>Save</button>
                     </div>
                 </form>
             </div>

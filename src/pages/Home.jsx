@@ -26,7 +26,7 @@ function Home() {
       </Link>
     ))}
     </div>)}
-    {recalls.length === 0 && errorFsis === '' && <div>Loading...</div>}
+    {recalls.length === 0 && errorFsis === '' && <div className='spinner'></div>}
     {errorFsis === 'Network Error' && <div>Check your internet connection!</div>}
     </>
   )
